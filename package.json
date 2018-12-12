@@ -4,7 +4,15 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint --fix-dry-run 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",
+    "lint:fix": "eslint --fix 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",
+    "prettify": "prettier --write 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "precise-commits"
+    }
   },
   "dependencies": {
     "next": "^7.0.2",
@@ -14,7 +22,14 @@
     "styled-system": "^3.1.11"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.8.0"
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-styled-components": "^1.8.0",
+    "eslint": "^5.10.0",
+    "eslint-config-problems": "^2.0.0",
+    "eslint-plugin-react": "^7.11.1",
+    "husky": "^1.2.0",
+    "precise-commits": "^1.0.2",
+    "prettier": "^1.15.3"
   },
   "license": "ISC"
 }

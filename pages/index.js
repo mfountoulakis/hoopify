@@ -1,8 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import Button from '../components/Button';
 
-export default () => {
+const Index = () => {
   return <Button>Hello</Button>;
 };
+
+export default Index;
