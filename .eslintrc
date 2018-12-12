@@ -9,6 +9,6 @@
     "browser": true,
   },
   "rules": {
-    "prefer-const": off,
+    "prefer-const": "off"
   }
 }
