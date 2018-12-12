@@ -4,7 +4,15 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint --fix-dry-run 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",
+    "lint:fix": "eslint --fix 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",
+    "prettify": "prettier --write 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "precise-commits"
+    }
   },
   "dependencies": {
     "next": "^7.0.2",
