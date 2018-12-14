@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "next": "^7.0.2",
+    "next-offline": "^3.3.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "styled-components": "^4.0.0",
