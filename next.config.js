@@ -1,5 +1,10 @@
-const withOffline = moduleExists('next-offline')
-  ? require('next-offline')
+const withOffline = moduleExists('next-offline') ? require('next-offline') : {};
+const withManifest = moduleExists('next-manifest')
+  ? require('next-manifest')
+  : {};
+
+const withPlugins = moduleExists('next-compose-plugins')
+  ? require('next-compose-plugins')
   : {};
 
 const nextConfig = {
@@ -11,36 +16,46 @@ const nextConfig = {
         loader: 'eslint-loader',
         options: {
           // eslint options (if necessary)
-        }
-      })
-    }
-    return config
-  },
-  workboxOpts: {
-    swDest: 'static/service-worker.js',
-    runtimeCaching: [
-      {
-        urlPattern: /^https?.*/,
-        handler: 'networkFirst',
-        options: {
-          cacheName: 'https-calls',
-          networkTimeoutSeconds: 15,
-          expiration: {
-            maxEntries: 150,
-            maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
-          },
-          cacheableResponse: {
-            statuses: [0, 200],
-          },
         },
-      },
-    ],
+      });
+    }
+    return config;
   },
-}
+};
 
-module.exports = moduleExists('next-offline')
-  ? withOffline(nextConfig)
-  : nextConfig
+module.exports =
+  moduleExists('next-offline') && moduleExists('next-compose-plugins')
+    ? withPlugins(
+        [
+          [
+            withOffline,
+            {
+              workboxOpts: {
+                swDest: 'static/service-worker.js',
+                runtimeCaching: [
+                  {
+                    urlPattern: /^https?.*/,
+                    handler: 'networkFirst',
+                    options: {
+                      cacheName: 'https-calls',
+                      networkTimeoutSeconds: 15,
+                      expiration: {
+                        maxEntries: 150,
+                        maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
+                      },
+                      cacheableResponse: {
+                        statuses: [0, 200],
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        ],
+        nextConfig,
+      )
+    : nextConfig;
 
 function moduleExists(name) {
   try {
@@ -49,5 +64,3 @@ function moduleExists(name) {
     return false;
   }
 }
-
-
