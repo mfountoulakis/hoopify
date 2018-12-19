@@ -45,6 +45,20 @@ export default class MyDocument extends Document {
     );
   }
 }
+
 const GlobalStyles = createGlobalStyle({
   ...normalize(),
+  '@font-face': {
+    fontFamily: 'Pilat',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    src: `url('/static/fonts/PilatBook.woff2') format('woff2')`,
+  },
+  // eslint-disable-next-line no-dupe-keys
+  '@font-face': {
+    fontFamily: 'Pilat Extended',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    src: `url('/static/fonts/PilatExtendedBook.woff2') format('woff2')`,
+  },
 });
