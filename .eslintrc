@@ -1,14 +1,12 @@
 {
   "parser": "babel-eslint",
-  "extends": [
-    "plugin:react/recommended",
-    "problems"
-  ],
+  "extends": ["plugin:react/recommended", "problems"],
   "env": {
     "node": true,
-    "browser": true,
+    "browser": true
   },
   "rules": {
-    "prefer-const": "off"
+    "prefer-const": "off",
+    "no-console": "off"
   }
 }
