@@ -1,5 +1,6 @@
 import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
+import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
+import { normalize } from 'polished';
 import Manifest from 'next-manifest/manifest';
 import Document, { Head, Main, NextScript } from 'next/document';
 
@@ -34,6 +35,7 @@ export default class MyDocument extends Document {
             themeColor="#000000"
             initialScale="1"
           />
+          <GlobalStyles />
         </Head>
         <body>
           <Main />
@@ -43,3 +45,20 @@ export default class MyDocument extends Document {
     );
   }
 }
+
+const GlobalStyles = createGlobalStyle({
+  ...normalize(),
+  '@font-face': {
+    fontFamily: 'Pilat',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    src: `url('/static/fonts/PilatBook.woff2') format('woff2')`,
+  },
+  // eslint-disable-next-line no-dupe-keys
+  '@font-face': {
+    fontFamily: 'Pilat Extended',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    src: `url('/static/fonts/PilatExtendedBook.woff2') format('woff2')`,
+  },
+});
