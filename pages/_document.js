@@ -1,5 +1,6 @@
 import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
+import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
+import { normalize } from 'polished';
 import Manifest from 'next-manifest/manifest';
 import Document, { Head, Main, NextScript } from 'next/document';
 
@@ -34,6 +35,7 @@ export default class MyDocument extends Document {
             themeColor="#000000"
             initialScale="1"
           />
+          <GlobalStyles />
         </Head>
         <body>
           <Main />
@@ -43,3 +45,6 @@ export default class MyDocument extends Document {
     );
   }
 }
+const GlobalStyles = createGlobalStyle({
+  ...normalize(),
+});
