@@ -1,6 +1,6 @@
 {
-  "name": "with-styled-components",
-  "short_name": "with-styled-",
+  "name": "hoopify",
+  "short_name": "hoopify",
   "icons": [
     {
       "src": "/static/manifest/icons/icon-192x192.png",
@@ -13,9 +13,10 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/?utm_source=web_app_manifest",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "natural",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FFFFFF"
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "prefer_related_applications": true
 }
