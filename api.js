@@ -8,7 +8,9 @@ const cors = require('cors');
 const date = moment().format('YYYYMMDD');
 const router = express.Router();
 
-app.use('/api', router, cors());
+app.use(cors());
+
+app.use('/api', router);
 
 router.get('/today', (req, res) => {
   req
