@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
+    "@rebass/grid": "^6.0.0-7",
     "next": "^7.0.2",
     "next-compose-plugins": "^2.1.1",
     "next-manifest": "^1.6.0",

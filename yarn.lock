@@ -673,6 +673,12 @@
     url-regex "^4.1.1"
     write-json-file "^2.2.0"
 
+"@rebass/grid@^6.0.0-7":
+  version "6.0.0-7"
+  resolved "https://registry.yarnpkg.com/@rebass/grid/-/grid-6.0.0-7.tgz#9f17453620a7d8d91d7fa49c7938a2c72478c87d"
+  dependencies:
+    styled-system "^3.1.11"
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
