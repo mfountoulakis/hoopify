@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
 
-import Score from '../components/Score';
+import ActiveScore from '../components/ActiveScore';
+import GameStatus from '../components/GameStatus';
+import GameTime from '../components/GameTime';
 
-const score = {
-  homeTeam: 888,
-  awayTeam: 888,
+const activeGame = {
+  currentStatus: 'live',
+  gameClock: '09:21',
+  quarter: 2,
+  homeTeam: {
+    teamName: 'Celtics',
+    score: 42,
+    record: '10-2',
+
+    abbr: 'BOS',
+  },
+  awayTeam: {
+    teamName: 'Bucks',
+    score: 56,
+    record: '12-0',
+    abbr: 'MIL',
+  },
 };
 
 class Index extends Component {
@@ -25,7 +41,13 @@ class Index extends Component {
   }
 
   render() {
-    return <Score score={score} />;
+    return (
+      <>
+        <GameStatus status={activeGame.currentStatus} />
+        <GameTime time={activeGame.gameClock} />
+        <ActiveScore activeGame={activeGame} />
+      </>
+    );
   }
 }
 
