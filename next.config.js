@@ -2,12 +2,15 @@ const withOffline = moduleExists('next-offline') ? require('next-offline') : {};
 const withManifest = moduleExists('next-manifest')
   ? require('next-manifest')
   : {};
-
 const withPlugins = moduleExists('next-compose-plugins')
   ? require('next-compose-plugins')
   : {};
 
 const nextConfig = {
+  publicRuntimeConfig: {
+    BASEURL: process.env.BASEURL,
+  },
+
   webpack: (config, { dev }) => {
     if (dev) {
       config.module.rules.push({
@@ -19,6 +22,7 @@ const nextConfig = {
         },
       });
     }
+
     return config;
   },
 };

@@ -1,33 +1,29 @@
 import React, { Component } from 'react';
+// import Button from '../components/Button';
+import fetch from 'isomorphic-unfetch';
+import PropTypes from 'prop-types';
+// import Link from 'next/link';
+import getConfig from 'next/config';
 
 import ActiveScore from '../components/ActiveScore';
 import GameStatus from '../components/GameStatus';
 import GameTime from '../components/GameTime';
-
-const activeGame = {
-  currentStatus: 'live',
-  gameClock: '09:21',
-  quarter: 2,
-  homeTeam: {
-    teamName: 'Celtics',
-    score: 42,
-    record: '10-2',
-
-    abbr: 'BOS',
-  },
-  awayTeam: {
-    teamName: 'Bucks',
-    score: 56,
-    record: '12-0',
-    abbr: 'MIL',
-  },
-};
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
       promptEvent: null,
+    };
+  }
+
+  static async getInitialProps() {
+    const { publicRuntimeConfig } = getConfig();
+    const url = `${publicRuntimeConfig.BASEURL}`;
+    const result = await fetch(`${url}/api/today`);
+    const json = await result.json();
+    return {
+      games: json.games,
     };
   }
 
@@ -41,14 +37,49 @@ class Index extends Component {
   }
 
   render() {
+    const { games } = this.props;
+
+    // const activeGame = {
+    //   currentStatus: 'live',
+    //   gameClock: '03:20',
+    //   quarter: 2,
+    //   homeTeam: {
+    //     teamName: 'Celtics',
+    //     score: 42,
+    //     record: '10-2',
+
+    //     abbr: 'BOS',
+    //   },
+    //   awayTeam: {
+    //     teamName: 'Bucks',
+    //     score: 56,
+    //     record: '12-0',
+    //     abbr: 'MIL',
+    //   },
+    // };
+
     return (
       <>
-        <GameStatus status={activeGame.currentStatus} />
-        <GameTime time={activeGame.gameClock} />
-        <ActiveScore activeGame={activeGame} />
+        {games.map(game => (
+          <div key={game.gameId}>
+            <GameStatus
+              status={
+                game.isGameActivated
+                  ? 'live'
+                  : `starts at ${game.startTimeEastern}`
+              }
+            />
+            <GameTime time={game.clock} />
+            <ActiveScore activeGame={game} />
+          </div>
+        ))}
       </>
     );
   }
 }
+
+Index.propTypes = {
+  games: PropTypes.array.isRequired,
+};
 
 export default Index;

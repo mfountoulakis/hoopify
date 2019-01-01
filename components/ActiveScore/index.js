@@ -5,27 +5,22 @@ import { Flex } from '@rebass/grid';
 import Text from '../Text';
 
 class ActiveScore extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props = {
-      activeGame: {},
-    };
-  }
-
   render() {
-    const { activeGame } = this.props;
+    const { activeGame = {} } = this.props;
+    console.log(activeGame);
+
     return (
       <Flex justifyContent="space-between">
         <Flex flexDirection={'column'} alignItems={'center'}>
-          <Text fontSize={4}>{activeGame.homeTeam.score}</Text>
+          <Text fontSize={4}>{activeGame.hTeam.score}</Text>
           <Text color={'gray'} fontSize={0}>
-            {activeGame.homeTeam.record}
+            {activeGame.hTeam.record}
           </Text>
         </Flex>
         <Flex flexDirection={'column'} alignItems={'center'}>
-          <Text fontSize={4}>{activeGame.awayTeam.score}</Text>
+          <Text fontSize={4}>{activeGame.vTeam.score}</Text>
           <Text color={'gray'} fontSize={0}>
-            {activeGame.awayTeam.record}
+            {activeGame.vTeam.record}
           </Text>
         </Flex>
       </Flex>
