@@ -4,21 +4,28 @@ import { Flex } from '@rebass/grid';
 
 import Text from '../Text';
 
-class Score extends React.Component {
+class ActiveScore extends React.Component {
+  constructor(props) {
+    super(props);
+    this.props = {
+      activeGame: {},
+    };
+  }
+
   render() {
-    const { score } = this.props;
+    const { activeGame } = this.props;
     return (
       <Flex justifyContent="space-between">
         <Flex flexDirection={'column'} alignItems={'center'}>
-          <Text fontSize={4}>{score.homeTeam}</Text>
+          <Text fontSize={4}>{activeGame.homeTeam.score}</Text>
           <Text color={'gray'} fontSize={0}>
-            10-2
+            {activeGame.homeTeam.record}
           </Text>
         </Flex>
         <Flex flexDirection={'column'} alignItems={'center'}>
-          <Text fontSize={4}>{score.awayTeam}</Text>
+          <Text fontSize={4}>{activeGame.awayTeam.score}</Text>
           <Text color={'gray'} fontSize={0}>
-            10-2
+            {activeGame.awayTeam.record}
           </Text>
         </Flex>
       </Flex>
@@ -26,8 +33,8 @@ class Score extends React.Component {
   }
 }
 
-Score.propTypes = {
-  score: PropTypes.number,
+ActiveScore.propTypes = {
+  activeGame: PropTypes.object.isRequired,
 };
 
-export default Score;
+export default ActiveScore;
