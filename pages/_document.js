@@ -1,6 +1,5 @@
 import React from 'react';
 import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
-import { normalize } from 'polished';
 import Manifest from 'next-manifest/manifest';
 import Document, { Head, Main, NextScript } from 'next/document';
 
@@ -47,7 +46,6 @@ export default class MyDocument extends Document {
 }
 
 const GlobalStyles = createGlobalStyle({
-  ...normalize(),
   '@font-face': {
     fontFamily: 'Pilat',
     fontWeight: 'normal',
@@ -60,5 +58,16 @@ const GlobalStyles = createGlobalStyle({
     fontWeight: 'normal',
     fontStyle: 'normal',
     src: `url('/static/fonts/PilatExtendedBook.woff2') format('woff2')`,
+  },
+  '*, *:before, *:after': {
+    margin: '0',
+    padding: '0',
+    position: 'relative',
+    boxSizing: 'border-box',
+  },
+  html: {
+    backgroundColor: '#000',
+    color: '#fff',
+    fontFamily: 'Pilat Extended',
   },
 });

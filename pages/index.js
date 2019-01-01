@@ -1,6 +1,11 @@
-// import React from 'react';
 import React, { Component } from 'react';
-import Button from '../components/Button';
+
+import Score from '../components/Score';
+
+const score = {
+  homeTeam: 888,
+  awayTeam: 888,
+};
 
 class Index extends Component {
   constructor(props) {
@@ -20,8 +25,7 @@ class Index extends Component {
   }
 
   render() {
-    const { promptEvent } = this.state;
-    return <Button onClick={() => promptEvent.prompt()}>Install Me</Button>;
+    return <Score score={score} />;
   }
 }
 
