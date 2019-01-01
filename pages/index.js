@@ -39,7 +39,6 @@ class Index extends Component {
   render() {
     const { games } = this.props;
 
-    console.log(games);
     // const activeGame = {
     //   currentStatus: 'live',
     //   gameClock: '03:20',
@@ -62,7 +61,7 @@ class Index extends Component {
     return (
       <>
         {games.map(game => (
-          <ul key={game.gameId}>
+          <div key={game.gameId}>
             <GameStatus
               status={
                 game.isGameActivated
@@ -72,7 +71,7 @@ class Index extends Component {
             />
             <GameTime time={game.clock} />
             <ActiveScore activeGame={game} />
-          </ul>
+          </div>
         ))}
       </>
     );

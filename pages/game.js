@@ -14,8 +14,6 @@ const Game = props => {
     },
   } = props;
 
-  console.log(hLeaders, vLeaders);
-
   return (
     <ul>
       <li>
@@ -30,8 +28,6 @@ const Game = props => {
 Game.getInitialProps = async function(context) {
   const { publicRuntimeConfig } = getConfig();
   const { id } = context.query;
-
-  console.log(id);
 
   const url = `${publicRuntimeConfig.BASEURL}`;
   const res = await fetch(`${url}/api/boxscore/${id}`);
