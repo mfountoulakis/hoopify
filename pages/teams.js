@@ -19,11 +19,11 @@ class Teams extends Component {
 
   setFavoriteTeam = team => {
     localStorage.setItem('favTeam', team);
-    this.props.router.push('/');
   };
 
   render() {
     const {
+      router,
       teams: {
         league: { standard },
       },
@@ -34,6 +34,7 @@ class Teams extends Component {
 
     return (
       <TeamPicker
+        handleClick={() => router.push('/')}
         handleChange={e => this.setFavoriteTeam(e.target.value)}
         teams={Nba(standard)}
       />
