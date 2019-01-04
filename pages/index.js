@@ -7,6 +7,8 @@ import getConfig from 'next/config';
 import ActiveScore from '../components/ActiveScore';
 import GameStatus from '../components/GameStatus';
 import GameTime from '../components/GameTime';
+import teamNames from '../lib/teamNames';
+
 import { withRouter } from 'next/router';
 
 class Index extends Component {
@@ -57,12 +59,19 @@ class Index extends Component {
 
     !loading && !favTeam ? router.push('/teams') : null;
 
+    console.log(isPlaying(games));
+
     return !loading ? (
       <>
         {isPlaying(games).length
           ? isPlaying(games).map(game => (
               <div key={game.gameId}>
-                <GameStatus
+                {`The ${teamNames[game.hTeam.triCode]} take on the ${
+                  teamNames[game.vTeam.triCode]
+                } @ ${game.arena.name}. Game starts at ${
+                  game.startTimeEastern
+                }`}
+                {/* <GameStatus
                   status={
                     game.isGameActivated
                       ? 'live'
@@ -70,7 +79,7 @@ class Index extends Component {
                   }
                 />
                 <GameTime time={game.clock} />
-                <ActiveScore activeGame={game} />
+                <ActiveScore activeGame={game} /> */}
               </div>
             ))
           : games.map(game => (
