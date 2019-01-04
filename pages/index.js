@@ -14,6 +14,7 @@ class Index extends Component {
     super(props);
     this.state = {
       promptEvent: null,
+      favTeam: '',
     };
   }
 
@@ -34,46 +35,53 @@ class Index extends Component {
         this.setState({ promptEvent: e });
       });
     }
+
+    window.localStorage
+      ? this.setState({ favTeam: localStorage.getItem('favTeam') })
+      : null;
   }
 
   render() {
     const { games } = this.props;
+    const { favTeam } = this.state;
 
-    // const activeGame = {
-    //   currentStatus: 'live',
-    //   gameClock: '03:20',
-    //   quarter: 2,
-    //   homeTeam: {
-    //     teamName: 'Celtics',
-    //     score: 42,
-    //     record: '10-2',
+    const isPlaying = games =>
+      games.filter(
+        g => g.hTeam.triCode === favTeam || g.vTeam.triCode === favTeam,
+      );
 
-    //     abbr: 'BOS',
-    //   },
-    //   awayTeam: {
-    //     teamName: 'Bucks',
-    //     score: 56,
-    //     record: '12-0',
-    //     abbr: 'MIL',
-    //   },
-    // };
-
-    return (
+    return favTeam.length ? (
       <>
-        {games.map(game => (
-          <div key={game.gameId}>
-            <GameStatus
-              status={
-                game.isGameActivated
-                  ? 'live'
-                  : `starts at ${game.startTimeEastern}`
-              }
-            />
-            <GameTime time={game.clock} />
-            <ActiveScore activeGame={game} />
-          </div>
-        ))}
+        {isPlaying(games).length
+          ? isPlaying(games).map(game => (
+              <div key={game.gameId}>
+                <GameStatus
+                  status={
+                    game.isGameActivated
+                      ? 'live'
+                      : `starts at ${game.startTimeEastern}`
+                  }
+                />
+                <GameTime time={game.clock} />
+                <ActiveScore activeGame={game} />
+              </div>
+            ))
+          : games.map(game => (
+              <div key={game.gameId}>
+                <GameStatus
+                  status={
+                    game.isGameActivated
+                      ? 'live'
+                      : `starts at ${game.startTimeEastern}`
+                  }
+                />
+                <GameTime time={game.clock} />
+                <ActiveScore activeGame={game} />
+              </div>
+            ))}
       </>
+    ) : (
+      <h1>Loading Screen?</h1>
     );
   }
 }
