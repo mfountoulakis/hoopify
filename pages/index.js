@@ -4,10 +4,10 @@ import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 // import Link from 'next/link';
 import getConfig from 'next/config';
-
 import ActiveScore from '../components/ActiveScore';
 import GameStatus from '../components/GameStatus';
 import GameTime from '../components/GameTime';
+import { withRouter } from 'next/router';
 
 class Index extends Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class Index extends Component {
     this.state = {
       promptEvent: null,
       favTeam: '',
+      loading: true,
     };
   }
 
@@ -23,6 +24,7 @@ class Index extends Component {
     const url = `${publicRuntimeConfig.BASEURL}`;
     const result = await fetch(`${url}/api/today`);
     const json = await result.json();
+
     return {
       games: json.games,
     };
@@ -37,20 +39,25 @@ class Index extends Component {
     }
 
     window.localStorage
-      ? this.setState({ favTeam: localStorage.getItem('favTeam') })
+      ? this.setState({
+          favTeam: localStorage.getItem('favTeam'),
+          loading: false,
+        })
       : null;
   }
 
   render() {
-    const { games } = this.props;
-    const { favTeam } = this.state;
+    const { games, router } = this.props;
+    const { favTeam, loading } = this.state;
 
     const isPlaying = games =>
       games.filter(
         g => g.hTeam.triCode === favTeam || g.vTeam.triCode === favTeam,
       );
 
-    return favTeam.length ? (
+    !loading && !favTeam ? router.push('/teams') : null;
+
+    return !loading ? (
       <>
         {isPlaying(games).length
           ? isPlaying(games).map(game => (
@@ -81,13 +88,14 @@ class Index extends Component {
             ))}
       </>
     ) : (
-      <h1>Loading Screen?</h1>
+      <h1>Loading...</h1>
     );
   }
 }
 
 Index.propTypes = {
-  games: PropTypes.array.isRequired,
+  games: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
-export default Index;
+export default withRouter(Index);
