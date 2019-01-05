@@ -11,6 +11,10 @@ app
   .then(() => {
     const server = express();
 
+    server.get('/teams', (req, res) => {
+      return app.render(req, res, '/teams');
+    });
+
     server.get('/game/:id', (req, res) => {
       const params = { id: req.params.id };
       return app.render(req, res, '/game', params);

@@ -12,6 +12,22 @@ app.use(cors());
 
 app.use('/api', router);
 
+router.get('/teams', (req, res) => {
+  req
+    .pipe(
+      request(
+        {
+          url: `http://data.nba.net/prod/v2/2018/teams.json`,
+          method: req.method,
+        },
+        (error, response, body) => {
+          if (error) console.error('Oops, ERROR!', error);
+        },
+      ),
+    )
+    .pipe(res);
+});
+
 router.get('/today', (req, res) => {
   req
     .pipe(

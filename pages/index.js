@@ -4,16 +4,20 @@ import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 // import Link from 'next/link';
 import getConfig from 'next/config';
-
 import ActiveScore from '../components/ActiveScore';
 import GameStatus from '../components/GameStatus';
 import GameTime from '../components/GameTime';
+import teamNames from '../lib/teamNames';
+
+import { withRouter } from 'next/router';
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
       promptEvent: null,
+      favTeam: '',
+      loading: true,
     };
   }
 
@@ -22,6 +26,7 @@ class Index extends Component {
     const url = `${publicRuntimeConfig.BASEURL}`;
     const result = await fetch(`${url}/api/today`);
     const json = await result.json();
+
     return {
       games: json.games,
     };
@@ -34,52 +39,72 @@ class Index extends Component {
         this.setState({ promptEvent: e });
       });
     }
+
+    window.localStorage
+      ? this.setState({
+          favTeam: localStorage.getItem('favTeam'),
+          loading: false,
+        })
+      : null;
   }
 
   render() {
-    const { games } = this.props;
+    const { games, router } = this.props;
+    const { favTeam, loading } = this.state;
 
-    // const activeGame = {
-    //   currentStatus: 'live',
-    //   gameClock: '03:20',
-    //   quarter: 2,
-    //   homeTeam: {
-    //     teamName: 'Celtics',
-    //     score: 42,
-    //     record: '10-2',
+    const isPlaying = games =>
+      games.filter(
+        g => g.hTeam.triCode === favTeam || g.vTeam.triCode === favTeam,
+      );
 
-    //     abbr: 'BOS',
-    //   },
-    //   awayTeam: {
-    //     teamName: 'Bucks',
-    //     score: 56,
-    //     record: '12-0',
-    //     abbr: 'MIL',
-    //   },
-    // };
+    !loading && !favTeam ? router.push('/teams') : null;
 
-    return (
+    console.log(isPlaying(games));
+
+    return !loading ? (
       <>
-        {games.map(game => (
-          <div key={game.gameId}>
-            <GameStatus
-              status={
-                game.isGameActivated
-                  ? 'live'
-                  : `starts at ${game.startTimeEastern}`
-              }
-            />
-            <GameTime time={game.clock} />
-            <ActiveScore activeGame={game} />
-          </div>
-        ))}
+        {isPlaying(games).length
+          ? isPlaying(games).map(game => (
+              <div key={game.gameId}>
+                {`The ${teamNames[game.hTeam.triCode]} take on the ${
+                  teamNames[game.vTeam.triCode]
+                } @ ${game.arena.name}. Game starts at ${
+                  game.startTimeEastern
+                }`}
+                {/* <GameStatus
+                  status={
+                    game.isGameActivated
+                      ? 'live'
+                      : `starts at ${game.startTimeEastern}`
+                  }
+                />
+                <GameTime time={game.clock} />
+                <ActiveScore activeGame={game} /> */}
+              </div>
+            ))
+          : games.map(game => (
+              <div key={game.gameId}>
+                <GameStatus
+                  status={
+                    game.isGameActivated
+                      ? 'live'
+                      : `starts at ${game.startTimeEastern}`
+                  }
+                />
+                <GameTime time={game.clock} />
+                <ActiveScore activeGame={game} />
+              </div>
+            ))}
       </>
+    ) : (
+      <h1>Loading...</h1>
     );
   }
 }
 
 Index.propTypes = {
-  games: PropTypes.array.isRequired,
+  games: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
-export default Index;
+export default withRouter(Index);
