@@ -70,4 +70,7 @@ const GlobalStyles = createGlobalStyle({
     color: '#fff',
     fontFamily: 'Pilat Extended',
   },
+  body: {
+    minHeight: '100vh',
+  },
 });
