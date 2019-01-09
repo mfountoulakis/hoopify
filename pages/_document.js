@@ -72,5 +72,9 @@ const GlobalStyles = createGlobalStyle({
   },
   body: {
     minHeight: '100vh',
+    overflow: 'hidden',
+  },
+  label: {
+    display: 'block',
   },
 });

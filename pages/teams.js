@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { withRouter } from 'next/router';
+import Space from 'styled-space';
 
 import { ViewLayout } from '../components/Layout';
 import ActionButton from '../components/ActionButton';
@@ -45,20 +46,22 @@ class Teams extends Component {
           <ActionButton onClick={() => router.push('/')}>GO</ActionButton>
         }
       >
-        <Text fontSize={3} as={'label'} htmlFor={'team-picker'}>
-          Choose your favorite NBA team to start:
-        </Text>
-        <Select htmlName={'team-picker'} onChange={e => this.handleChange(e)}>
-          {standardTeams.map(team => (
-            <option value={team.tricode} key={team.teamId}>
-              {team.fullName}
-            </option>
-          ))}
-        </Select>
-        <Text color={'gray'}>
-          Free agent fan? Don’t stress it, you can choose a different team later
-          in the settings.
-        </Text>
+        <Space mb={3}>
+          <Text fontSize={3} as={'label'} htmlFor={'team-picker'}>
+            Choose your favorite NBA team to start:
+          </Text>
+          <Select htmlName={'team-picker'} onChange={e => this.handleChange(e)}>
+            {standardTeams.map(team => (
+              <option value={team.tricode} key={team.teamId}>
+                {team.fullName}
+              </option>
+            ))}
+          </Select>
+          <Text color={'gray'}>
+            Free agent fan? Don’t stress it, you can choose a different team
+            later in the settings.
+          </Text>
+        </Space>
       </ViewLayout>
     );
   }
