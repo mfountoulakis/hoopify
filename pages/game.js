@@ -3,25 +3,28 @@ import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-unfetch';
 
-const Game = props => {
-  const {
-    game: {
-      basicGameData: { hTeam, vTeam, clock },
-      stats: {
-        hTeam: { leaders: hLeaders } = {},
-        vTeam: { leaders: vLeaders } = {},
-      } = {},
-    },
-  } = props;
+const Game = () => {
+  // const {
+  //   game: {
+  //     basicGameData: { hTeam, vTeam, clock },
+  //     stats: {
+  //       hTeam: { leaders: hLeaders } = {},
+  //       // vTeam: { leaders: vLeaders } = {},
+  //     } = {},
+  //   },
+  // } = props;
 
   return (
-    <ul>
-      <li>
-        {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
-        {vTeam.score})
-      </li>
-      <li>clock: {clock}</li>
-    </ul>
+    <h1>hi</h1>
+    // <ul>
+    //   {/* <li>
+    //     {hLeaders.points.players.map(p => p.personId)}
+    //     {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
+    //     {vTeam.score})
+    //   </li>
+    //   <li>clock: {clock}</li> */}
+    // </ul>
+    // // <ul></ul>
   );
 };
 
@@ -30,11 +33,20 @@ Game.getInitialProps = async function(context) {
   const { id } = context.query;
 
   const url = `${publicRuntimeConfig.BASEURL}`;
-  const res = await fetch(`${url}/api/boxscore/${id}`);
-  const json = await res.json();
+
+  /* eslint-disable no-unused-vars */
+  const [game, players] = await Promise.all([
+    fetch(`${url}/api/boxscore/${id}`),
+    fetch(`${url}/api/players`),
+  ]);
+  /* eslint-disable no-unused-vars */
+
+  const g = await game.json();
+  const p = await players.json();
 
   return {
-    game: json,
+    game: g,
+    players: p,
   };
 };
 
