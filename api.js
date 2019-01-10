@@ -4,12 +4,14 @@ const port = process.env.PORT || 4000;
 const app = express();
 const moment = require('moment');
 const cors = require('cors');
+const rp = require('request-promise');
 
 const date = moment().format('YYYYMMDD');
 const router = express.Router();
 
-app.use(cors());
+let seasonYear;
 
+app.use(cors());
 app.use('/api', router);
 
 router.get('/teams', (req, res) => {
@@ -28,15 +30,33 @@ router.get('/teams', (req, res) => {
     .pipe(res);
 });
 
+let options = {
+  method: 'GET',
+  uri: `http://data.nba.net/prod/v1/20190109/scoreboard.json`,
+  json: true, // Automatically stringifies the body to JSON
+};
+
 router.get('/today', (req, res) => {
+  rp(options)
+    .then(games => {
+      res.send(JSON.stringify(games));
+
+      seasonYear = games.games[0].seasonYear;
+    })
+    .catch(err => {
+      console.log('Oops, ERROR!', error);
+    });
+});
+
+router.get('/players', (req, res) => {
   req
     .pipe(
       request(
         {
-          url: `http://data.nba.net/prod/v1/${date}/scoreboard.json`,
+          url: `http://data.nba.net/prod/v1/${seasonYear}/players.json`,
           method: req.method,
         },
-        (error, response, body) => {
+        error => {
           if (error) console.error('Oops, ERROR!', error);
         },
       ),
@@ -49,12 +69,12 @@ router.get('/boxscore/:gameId', (req, res) => {
     .pipe(
       request(
         {
-          url: `http://data.nba.net/prod/v1/${date}/${
+          url: `http://data.nba.net/prod/v1/20190109/${
             req.params.gameId
           }_boxscore.json`,
           method: req.method,
         },
-        (error, response, body) => {
+        error => {
           if (error) console.error('Oops, ERROR!', error);
         },
       ),
