@@ -4,7 +4,9 @@ import { space, color, fontSize } from 'styled-system';
 
 const caps = props => (props.caps ? { textTransform: 'uppercase' } : null);
 
-const Text = styled.p(space, color, fontSize, caps);
+const Text = styled.p(space, color, fontSize, caps, {
+  letterSpacing: '0.02em',
+});
 
 Text.displayName = 'Text';
 
@@ -16,9 +18,7 @@ Text.propTypes = {
 };
 
 Text.defaultProps = {
-  fontFamily: 'Pilat Extended',
-  fontSize: [1, 2],
-  letterSpacing: '0.1em',
+  fontSize: 1,
 };
 
 export default Text;
