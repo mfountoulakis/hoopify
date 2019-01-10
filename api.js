@@ -32,7 +32,7 @@ router.get('/teams', (req, res) => {
 
 let options = {
   method: 'GET',
-  uri: `http://data.nba.net/prod/v1/20190109/scoreboard.json`,
+  uri: `http://data.nba.net/prod/v1/${date}/scoreboard.json`,
   json: true, // Automatically stringifies the body to JSON
 };
 
@@ -69,7 +69,7 @@ router.get('/boxscore/:gameId', (req, res) => {
     .pipe(
       request(
         {
-          url: `http://data.nba.net/prod/v1/20190109/${
+          url: `http://data.nba.net/prod/v1/${date}/${
             req.params.gameId
           }_boxscore.json`,
           method: req.method,
