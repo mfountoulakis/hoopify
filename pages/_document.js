@@ -47,15 +47,15 @@ export default class MyDocument extends Document {
 
 const GlobalStyles = createGlobalStyle({
   '@font-face': {
-    fontFamily: 'Pilat Bold',
-    fontStyle: 'normal',
-    src: 'url("/static/fonts/PilatBold.WOFF") format("woff")',
-  },
-  // eslint-disable-next-line no-dupe-keys
-  '@font-face': {
     fontFamily: 'Pilat Extended Bold',
     fontStyle: 'normal',
     src: 'url("/static/fonts/PilatExtendedBold.WOFF") format("woff")',
+  },
+  // eslint-disable-next-line no-dupe-keys
+  '@font-face': {
+    fontFamily: 'Pilat Bold',
+    fontStyle: 'normal',
+    src: 'url("/static/fonts/PilatBold.WOFF") format("woff")',
   },
   '*, *:before, *:after': {
     margin: '0',
@@ -72,6 +72,7 @@ const GlobalStyles = createGlobalStyle({
   },
   body: {
     minHeight: '100vh',
+    overflow: 'hidden',
   },
   label: {
     display: 'block',
