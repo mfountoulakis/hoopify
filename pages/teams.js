@@ -45,7 +45,7 @@ class Teams extends Component {
           <ActionButton onClick={() => router.push('/')}>GO</ActionButton>
         }
       >
-        <Text fontSize={3} mb={3} as={'label'} htmlFor={'team-picker'}>
+        <Text fontSize={3} mb={4} as={'label'} htmlFor={'team-picker'}>
           Choose your favorite NBA team to start:
         </Text>
         <Select htmlName={'team-picker'} onChange={e => this.handleChange(e)}>

@@ -8,10 +8,11 @@ const StyledActionButton = styled.button(space, fontSize, color, {
   bottom: '0',
   display: 'flex',
   flexDirection: 'column',
-  fontFamily: 'inherit',
+  fontFamily: 'Pilat Extended Bold',
   height: '140px',
   position: 'fixed',
   width: '100%',
+  letterSpacing: '0.05em',
 });
 
 const ActionButton = props => <StyledActionButton {...props} />;
@@ -19,7 +20,7 @@ const ActionButton = props => <StyledActionButton {...props} />;
 ActionButton.defaultProps = {
   bg: 'orange',
   color: 'white',
-  fontSize: 3,
+  fontSize: 2,
   pt: 3,
 };
 
