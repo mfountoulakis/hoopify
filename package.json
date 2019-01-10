@@ -4,6 +4,7 @@
   "scripts": {
     "deploy": "now",
     "dev": "BASEURL=http://localhost:4000 node server.js & node api.js",
+    "dummy": "BASEURL=http://localhost:4000 node server.js & NODE_ENV=dummy node api.js",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "eslint --fix-dry-run 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",

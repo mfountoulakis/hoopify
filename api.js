@@ -6,7 +6,8 @@ const moment = require('moment');
 const cors = require('cors');
 const rp = require('request-promise');
 
-const date = moment().format('YYYYMMDD');
+const date =
+  process.env.NODE_ENV === 'dummy' ? '20181203' : moment().format('YYYYMMDD');
 const router = express.Router();
 
 let seasonYear;
@@ -15,6 +16,7 @@ app.use(cors());
 app.use('/api', router);
 
 router.get('/teams', (req, res) => {
+  console.log(process.env);
   req
     .pipe(
       request(
