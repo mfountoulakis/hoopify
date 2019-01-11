@@ -3,13 +3,14 @@ import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { withRouter } from 'next/router';
+import { filter, prop } from 'rambda';
 
 import { ViewLayout } from '../components/Layout';
-import Text from '../components/Text';
-import teamNames from '../lib/teamNames';
-import ActiveScore from '../components/ActiveScore';
-import GameStatus from '../components/GameStatus';
-import GameTime from '../components/GameTime';
+// import Text from '../components/Text';
+// import teamNames from '../lib/teamNames';
+// import ActiveScore from '../components/ActiveScore';
+// import GameStatus from '../components/GameStatus';
+// import GameTime from '../components/GameTime';
 
 class Index extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class Index extends Component {
     this.state = {
       promptEvent: null,
       favTeam: '',
-      loading: true,
+      isLoading: true,
+      isPlaying: false,
     };
   }
 
@@ -43,54 +45,74 @@ class Index extends Component {
     window.localStorage
       ? this.setState({
           favTeam: localStorage.getItem('favTeam'),
-          loading: false,
+          isLoading: false,
+          isPlaying: filter(prop(this.state.favTeam, this.props.games)),
         })
       : null;
   }
 
   render() {
-    const { games, router } = this.props;
-    const { favTeam, loading } = this.state;
+    const { router } = this.props;
+    const { favTeam, isLoading, isPlaying } = this.state;
 
-    const isPlaying = games =>
-      games.filter(
-        g => g.hTeam.triCode === favTeam || g.vTeam.triCode === favTeam,
-      );
+    if (!isLoading && !favTeam) {
+      router.push('/teams');
+    }
 
-    !loading && !favTeam ? router.push('/teams') : null;
-
-    console.log(isPlaying(games));
-
-    return !loading ? (
+    return (
       <ViewLayout>
-        {isPlaying(games).length
-          ? isPlaying(games).map(game => (
-              <Text fontSize={3} key={game.gameId}>
-                {`The ${teamNames[game.hTeam.triCode]} take on the ${
-                  teamNames[game.vTeam.triCode]
-                } @ ${game.arena.name}. Game starts at ${
-                  game.startTimeEastern
-                }`}
-              </Text>
-            ))
-          : games.map(game => (
-              <div key={game.gameId}>
-                <GameStatus
-                  status={
-                    game.isGameActivated
-                      ? 'live'
-                      : `starts at ${game.startTimeEastern}`
-                  }
-                />
-                <GameTime time={game.clock} />
-                <ActiveScore activeGame={game} />
-              </div>
-            ))}
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : isPlaying ? (
+          <h1>live</h1>
+        ) : (
+          <h1>not live</h1>
+        )}
       </ViewLayout>
-    ) : (
-      <h1>Loading...</h1>
     );
   }
+
+  // rejnder() {
+  //   const { games, router } = this.props;
+  //   const { favTeam, loading } = this.state;
+
+  //   const isPlaying = games =>
+  //     games.filter(
+  //       g => g.hTeam.triCode === favTeam || g.vTeam.triCode === favTeam,
+  //     );
+
+  //   !loading && !favTeam ? router.push('/teams') : null;
+
+  //   return !loading ? (
+  //     <ViewLayout>
+  //       {isPlaying(games).length
+  //         ? isPlaying(games).map(game => (
+  //             <Text fontSize={3} key={game.gameId}>
+  //               {`The ${teamNames[game.hTeam.triCode]} take on the ${
+  //                 teamNames[game.vTeam.triCode]
+  //               } @ ${game.arena.name}. Game starts at ${
+  //                 game.startTimeEastern
+  //               }`}
+  //             </Text>
+  //           ))
+  //         : games.map(game => (
+  //             <div key={game.gameId}>
+  //               <GameStatus
+  //                 status={
+  //                   game.isGameActivated
+  //                     ? 'live'
+  //                     : `starts at ${game.startTimeEastern}`
+  //                 }
+  //               />
+  //               <GameTime time={game.clock} />
+  //               <ActiveScore activeGame={game} />
+  //             </div>
+  //           ))}
+  //     </ViewLayout>
+  //   ) : (
+  //     <h1>Loading...</h1>
+  //   );
+  // }
 }
 
 Index.propTypes = {

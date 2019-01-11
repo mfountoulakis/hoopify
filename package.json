@@ -16,16 +16,17 @@
     }
   },
   "dependencies": {
+    "@rebass/grid": "^6.0.0-7",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
-    "@rebass/grid": "^6.0.0-7",
     "next": "^7.0.2",
     "next-compose-plugins": "^2.1.1",
     "next-manifest": "^1.6.0",
     "next-offline": "^3.3.1",
     "polished": "^2.3.1",
     "prop-types": "^15.6.2",
+    "rambda": "^2.3.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "styled-components": "^4.0.0",

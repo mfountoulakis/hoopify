@@ -7,10 +7,10 @@ const Game = props => {
   const {
     game: {
       basicGameData: { hTeam, vTeam, clock },
-      stats: {
-        hTeam: { leaders: hLeaders } = {},
-        vTeam: { leaders: vLeaders } = {},
-      } = {},
+      // stats: {
+      //   hTeam: { leaders: hLeaders } = {},
+      //   vTeam: { leaders: vLeaders } = {},
+      // } = {},
     },
   } = props;
 
