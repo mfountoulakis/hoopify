@@ -16,7 +16,6 @@ app.use(cors());
 app.use('/api', router);
 
 router.get('/teams', (req, res) => {
-  console.log(process.env);
   req
     .pipe(
       request(
@@ -24,7 +23,7 @@ router.get('/teams', (req, res) => {
           url: `http://data.nba.net/prod/v2/2018/teams.json`,
           method: req.method,
         },
-        (error, response, body) => {
+        error => {
           if (error) console.error('Oops, ERROR!', error);
         },
       ),
@@ -45,7 +44,7 @@ router.get('/today', (req, res) => {
 
       seasonYear = games.games[0].seasonYear;
     })
-    .catch(err => {
+    .catch(error => {
       console.log('Oops, ERROR!', error);
     });
 });
