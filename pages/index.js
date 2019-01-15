@@ -42,7 +42,7 @@ class Index extends Component {
 
     window.localStorage
       ? this.setState({
-          favTeam: localStorage.getItem('favTeam'),
+          favTeam: localStorage.getItem('favTeam') || '',
           loading: false,
         })
       : null;
@@ -52,18 +52,15 @@ class Index extends Component {
     const { games, router } = this.props;
     const { favTeam, loading } = this.state;
 
-    const isPlaying = games =>
-      games.filter(
-        g => g.hTeam.triCode === favTeam || g.vTeam.triCode === favTeam,
-      );
+    const isPlaying = game =>
+      game.hTeam.triCode === favTeam || game.vTeam.triCode === favTeam;
 
-    const gameIsActive = game => {
-      game.isGameActivated
+    const gameIsActive = game =>
+      isPlaying(game) && game.isGameActivated === true
         ? router.push(`/game/${game.gameId}`)
         : `The ${teamNames[game.hTeam.triCode]} take on the ${
             teamNames[game.vTeam.triCode]
           } @ ${game.arena.name}. Game starts at ${game.startTimeEastern}`;
-    };
 
     !loading && !favTeam ? router.push('/teams') : null;
 
@@ -76,7 +73,7 @@ class Index extends Component {
             </Text>
           </div>
         ))}
-      </ViewLayout>
+        </ViewLayout>
     ) : (
       <h1>Loading...</h1>
     );
