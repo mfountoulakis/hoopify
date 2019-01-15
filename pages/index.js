@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
-import { withRouter } from 'next/router';
-
 import { ViewLayout } from '../components/Layout';
-import Text from '../components/Text';
+
+// import ActiveScore from '../components/ActiveScore';
+// import GameStatus from '../components/GameStatus';
+// import GameTime from '../components/GameTime';
 import teamNames from '../lib/teamNames';
-import ActiveScore from '../components/ActiveScore';
-import GameStatus from '../components/GameStatus';
-import GameTime from '../components/GameTime';
+import { withRouter } from 'next/router';
+import Text from '../components/Text';
 
 class Index extends Component {
   constructor(props) {
@@ -57,35 +57,25 @@ class Index extends Component {
         g => g.hTeam.triCode === favTeam || g.vTeam.triCode === favTeam,
       );
 
-    !loading && !favTeam ? router.push('/teams') : null;
+    const gameIsActive = game => {
+      game.isGameActivated
+        ? router.push(`/game/${game.gameId}`)
+        : `The ${teamNames[game.hTeam.triCode]} take on the ${
+            teamNames[game.vTeam.triCode]
+          } @ ${game.arena.name}. Game starts at ${game.startTimeEastern}`;
+    };
 
-    console.log(isPlaying(games));
+    !loading && !favTeam ? router.push('/teams') : null;
 
     return !loading ? (
       <ViewLayout>
-        {isPlaying(games).length
-          ? isPlaying(games).map(game => (
-              <Text fontSize={3} key={game.gameId}>
-                {`The ${teamNames[game.hTeam.triCode]} take on the ${
-                  teamNames[game.vTeam.triCode]
-                } @ ${game.arena.name}. Game starts at ${
-                  game.startTimeEastern
-                }`}
-              </Text>
-            ))
-          : games.map(game => (
-              <div key={game.gameId}>
-                <GameStatus
-                  status={
-                    game.isGameActivated
-                      ? 'live'
-                      : `starts at ${game.startTimeEastern}`
-                  }
-                />
-                <GameTime time={game.clock} />
-                <ActiveScore activeGame={game} />
-              </div>
-            ))}
+        {games.map(game => (
+          <div key={game.gameId}>
+            <Text fontSize={3} mb={3} as={'label'} htmlFor={'team-picker'}>
+              {gameIsActive(game)}
+            </Text>
+          </div>
+        ))}
       </ViewLayout>
     ) : (
       <h1>Loading...</h1>
@@ -94,7 +84,7 @@ class Index extends Component {
 }
 
 Index.propTypes = {
-  games: PropTypes.object.isRequired,
+  games: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
 };
 
