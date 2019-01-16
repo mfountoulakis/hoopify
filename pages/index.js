@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { ViewLayout } from '../components/Layout';
+import Link from 'next/link';
 
 // import ActiveScore from '../components/ActiveScore';
 // import GameStatus from '../components/GameStatus';
@@ -69,11 +70,13 @@ class Index extends Component {
         {games.map(game => (
           <div key={game.gameId}>
             <Text fontSize={3} mb={3} as={'label'} htmlFor={'team-picker'}>
-              {gameIsActive(game)}
+              <Link href={{ pathname: `/game/${game.gameId}` }}>
+                <a>{gameIsActive(game)}</a>
+              </Link>
             </Text>
           </div>
         ))}
-        </ViewLayout>
+      </ViewLayout>
     ) : (
       <h1>Loading...</h1>
     );
