@@ -3,28 +3,27 @@ import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-unfetch';
 
-const Game = () => {
-  // const {
-  //   game: {
-  //     basicGameData: { hTeam, vTeam, clock },
-  //     stats: {
-  //       hTeam: { leaders: hLeaders } = {},
-  //       // vTeam: { leaders: vLeaders } = {},
-  //     } = {},
-  //   },
-  // } = props;
+const Game = props => {
+  const {
+    game: {
+      basicGameData: { hTeam, vTeam, clock },
+      stats: {
+        hTeam: { leaders: hLeaders } = {},
+        // vTeam: { leaders: vLeaders } = {},
+      } = {},
+    },
+  } = props;
 
   return (
-    <h1>hi</h1>
-    // <ul>
-    //   {/* <li>
-    //     {hLeaders.points.players.map(p => p.personId)}
-    //     {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
-    //     {vTeam.score})
-    //   </li>
-    //   <li>clock: {clock}</li> */}
-    // </ul>
-    // // <ul></ul>
+    // <h1>hi</h1>
+    <ul>
+      <li>
+        {hLeaders.points.players.map(p => p.personId)}
+        {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
+        {vTeam.score})
+      </li>
+      <li>clock: {clock}</li>
+    </ul>
   );
 };
 
