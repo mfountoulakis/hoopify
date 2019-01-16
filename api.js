@@ -9,7 +9,7 @@ const rp = require('request-promise');
 const date =
   process.env.NODE_ENV === 'dummy'
     ? '20181203'
-    : moment.tz("America/New_York").format('YYYYMMDD')
+    : moment.tz('America/New_York').format('YYYYMMDD');
 
 const router = express.Router();
 
