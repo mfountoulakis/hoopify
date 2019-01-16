@@ -2,12 +2,15 @@ const express = require('express');
 const request = require('request');
 const port = process.env.PORT || 4000;
 const app = express();
-const moment = require('moment');
+const moment = require('moment-timezone');
 const cors = require('cors');
 const rp = require('request-promise');
 
 const date =
-  process.env.NODE_ENV === 'dummy' ? '20181203' : moment().format('YYYYMMDD');
+  process.env.NODE_ENV === 'dummy'
+    ? '20181203'
+    : moment.tz("America/New_York").format('YYYYMMDD')
+
 const router = express.Router();
 
 let seasonYear;
@@ -38,6 +41,7 @@ let options = {
 };
 
 router.get('/today', (req, res) => {
+  console.log('DATA ', date);
   rp(options)
     .then(games => {
       res.send(JSON.stringify(games));
