@@ -15,19 +15,15 @@ const Game = props => {
   } = props;
 
   return (
-    // <h1>hi</h1>
-    <ul>
-      <li>
-        {hLeaders.points.players.map(p => p.personId)}
-        {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
-        {vTeam.score})
-      </li>
-      <li>clock: {clock}</li>
-    </ul>
+    <div>
+      {hLeaders.points.players[0].personId}
+      {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
+      {vTeam.score}) clock: {clock}
+    </div>
   );
 };
 
-Game.getInitialProps = async function(context) {
+Game.getInitialProps = async context => {
   const { publicRuntimeConfig } = getConfig();
   const { id } = context.query;
 
@@ -39,7 +35,6 @@ Game.getInitialProps = async function(context) {
     fetch(`${url}/api/players`),
   ]);
   /* eslint-disable no-unused-vars */
-
   const g = await game.json();
   const p = await players.json();
 

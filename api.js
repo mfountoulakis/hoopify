@@ -41,7 +41,6 @@ let options = {
 };
 
 router.get('/today', (req, res) => {
-  console.log('DATA ', date);
   rp(options)
     .then(games => {
       res.send(JSON.stringify(games));
