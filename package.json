@@ -4,6 +4,7 @@
   "scripts": {
     "deploy": "now",
     "dev": "BASEURL=http://localhost:4000 node server.js & node api.js",
+    "dummy": "BASEURL=http://localhost:4000 node server.js & NODE_ENV=dummy node api.js",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "eslint --fix-dry-run 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",
@@ -16,10 +17,11 @@
     }
   },
   "dependencies": {
+    "@rebass/grid": "^6.0.0-7",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
-    "@rebass/grid": "^6.0.0-7",
+    "moment-timezone": "^0.5.23",
     "next": "^7.0.2",
     "next-compose-plugins": "^2.1.1",
     "next-manifest": "^1.6.0",
@@ -28,6 +30,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "request-promise": "^4.2.2",
     "styled-components": "^4.0.0",
     "styled-system": "^3.1.11"
   },

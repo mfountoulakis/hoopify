@@ -6,8 +6,10 @@
     "BASEURL": "https://hoopify.app"
   },
   "routes": [
+    { "src": "/game/(.*)", "dest": "/game?id=$1" },
     { "src": "/api/today", "dest": "/api.js" },
     { "src": "/api/teams", "dest": "/api.js" },
+    { "src": "/api/players", "dest": "/api.js" },
     { "src": "/api/boxscore/(.*)", "dest": "/api.js?id=$1" },
     {
       "src": "^/service-worker.js$",

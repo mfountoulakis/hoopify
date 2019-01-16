@@ -7,16 +7,18 @@ const Game = props => {
   const {
     game: {
       basicGameData: { hTeam, vTeam, clock },
-      stats: {
-        hTeam: { leaders: hLeaders } = {},
-        vTeam: { leaders: vLeaders } = {},
-      } = {},
+      // stats: {
+      // hTeam: { leaders: hLeaders } = {},
+      // vTeam: { leaders: vLeaders } = {},
+      // } = {},
     },
   } = props;
 
   return (
+    // <h1>hi</h1>
     <ul>
       <li>
+        {/* {hLeaders.points.players.map(p => p.personId)} */}
         {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
         {vTeam.score})
       </li>
@@ -25,16 +27,24 @@ const Game = props => {
   );
 };
 
-Game.getInitialProps = async function(context) {
+Game.getInitialProps = async context => {
   const { publicRuntimeConfig } = getConfig();
   const { id } = context.query;
 
   const url = `${publicRuntimeConfig.BASEURL}`;
-  const res = await fetch(`${url}/api/boxscore/${id}`);
-  const json = await res.json();
+
+  /* eslint-disable no-unused-vars */
+  const [game, players] = await Promise.all([
+    fetch(`${url}/api/boxscore/${id}`),
+    fetch(`${url}/api/players`),
+  ]);
+  /* eslint-disable no-unused-vars */
+  const g = await game.json();
+  const p = await players.json();
 
   return {
-    game: json,
+    game: g,
+    players: p,
   };
 };
 
