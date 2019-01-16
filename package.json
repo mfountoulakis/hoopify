@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
+    "lodash-fp": "^0.10.4",
     "moment-timezone": "^0.5.23",
     "next": "^7.0.2",
     "next-compose-plugins": "^2.1.1",
