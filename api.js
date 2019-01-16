@@ -34,17 +34,16 @@ router.get('/teams', (req, res) => {
     .pipe(res);
 });
 
-let options = {
-  method: 'GET',
-  uri: `http://data.nba.net/prod/v1/${date}/scoreboard.json`,
-  json: true, // Automatically stringifies the body to JSON
-};
-
 router.get('/today', (req, res) => {
+  let options = {
+    method: 'GET',
+    uri: `http://data.nba.net/prod/v1/${date}/scoreboard.json`,
+    json: true, // Automatically stringifies the body to JSON
+  };
+
   rp(options)
     .then(games => {
       res.send(JSON.stringify(games));
-
       seasonYear = games.games[0].seasonYear;
     })
     .catch(error => {
@@ -69,21 +68,20 @@ router.get('/players', (req, res) => {
 });
 
 router.get('/boxscore/:gameId', (req, res) => {
-  req
-    .pipe(
-      request(
-        {
-          url: `http://data.nba.net/prod/v1/${date}/${
-            req.params.gameId
-          }_boxscore.json`,
-          method: req.method,
-        },
-        error => {
-          if (error) console.error('Oops, ERROR!', error);
-        },
-      ),
-    )
-    .pipe(res);
+  let options = {
+    uri: `http://data.nba.net/prod/v1/${date}/${
+      req.params.gameId
+    }_boxscore.json`,
+    method: 'GET',
+    json: true, // Automatically stringifies the body to JSON
+  };
+  rp(options)
+    .then(result => {
+      res.send(result);
+    })
+    .catch(error => {
+      console.log('Oops, ERROR!', error);
+    });
 });
 
 app.listen(port, err => {

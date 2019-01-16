@@ -7,19 +7,23 @@ const Game = props => {
   const {
     game: {
       basicGameData: { hTeam, vTeam, clock },
-      stats: {
-        hTeam: { leaders: hLeaders } = {},
-        // vTeam: { leaders: vLeaders } = {},
-      } = {},
+      // stats: {
+      // hTeam: { leaders: hLeaders } = {},
+      // vTeam: { leaders: vLeaders } = {},
+      // } = {},
     },
   } = props;
 
   return (
-    <div>
-      {hLeaders.points.players[0].personId}
-      {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
-      {vTeam.score}) clock: {clock}
-    </div>
+    // <h1>hi</h1>
+    <ul>
+      <li>
+        {/* {hLeaders.points.players.map(p => p.personId)} */}
+        {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
+        {vTeam.score})
+      </li>
+      <li>clock: {clock}</li>
+    </ul>
   );
 };
 
