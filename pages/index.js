@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { ViewLayout } from '../components/Layout';
 import Link from 'next/link';
-
+import { flow, get, isEqual, compose } from 'lodash/fp';
 // import ActiveScore from '../components/ActiveScore';
 // import GameStatus from '../components/GameStatus';
 // import GameTime from '../components/GameTime';
@@ -53,15 +53,25 @@ class Index extends Component {
     const { games, router } = this.props;
     const { favTeam, loading } = this.state;
 
-    const isPlaying = game =>
-      game.hTeam.triCode === favTeam || game.vTeam.triCode === favTeam;
+    const isFavorite = flow(
+      get('hTeam.triCode') || get('vTeam.triCode'),
+      isEqual(favTeam),
+    );
 
-    const gameIsActive = game =>
-      isPlaying(game) && game.isGameActivated === true
-        ? router.push(`/game/${game.gameId}`)
-        : `The ${teamNames[game.hTeam.triCode]} take on the ${
-            teamNames[game.vTeam.triCode]
-          } @ ${game.arena.name}. Game starts at ${game.startTimeEastern}`;
+    const isLive = flow(
+      get('isGameActivated'),
+      isEqual(true),
+    );
+
+    const shouldRedirect = compose(
+      isFavorite,
+      isLive,
+    );
+
+    const previewText = game =>
+      `The ${teamNames[game.hTeam.triCode]} take on the ${
+        teamNames[game.vTeam.triCode]
+      } @ ${game.arena.name}. Game starts at ${game.startTimeEastern}`;
 
     !loading && !favTeam ? router.push('/teams') : null;
 
@@ -71,7 +81,11 @@ class Index extends Component {
           <div key={game.gameId}>
             <Text fontSize={3} mb={3} as={'label'} htmlFor={'team-picker'}>
               <Link href={{ pathname: `/game/${game.gameId}` }}>
-                <a>{gameIsActive(game)}</a>
+                <a>
+                  {shouldRedirect(game)
+                    ? router.push(`/game/${game.gameId}`)
+                    : previewText(game)}
+                </a>
               </Link>
             </Text>
           </div>
