@@ -43,9 +43,10 @@ router.get('/today', (req, res) => {
   };
 
   rp(options)
-    .then(games => {
-      res.send(JSON.stringify(games));
-      seasonYear = games.games[0].seasonYear;
+    .then(result => {
+      res.send(JSON.stringify(result));
+      //get seasonYear from first game
+      seasonYear = result.games[0].seasonYear;
     })
     .catch(error => {
       console.log('Oops, ERROR!', error);
@@ -59,9 +60,8 @@ router.get('/players', (req, res) => {
   };
 
   rp(options)
-    .then(games => {
-      res.send(JSON.stringify(games));
-      seasonYear = games.games[0].seasonYear;
+    .then(result => {
+      res.send(JSON.stringify(result));
     })
     .catch(error => {
       console.log('Oops, ERROR!', error);
