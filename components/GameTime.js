@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Flex } from '@rebass/grid';
 
-import Text from '../Text';
+import Text from './Text';
 
 const GameTime = ({ time }) => (
   <Flex justifyContent={'center'}>

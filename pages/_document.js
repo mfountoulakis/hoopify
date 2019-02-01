@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
+import { ServerStyleSheet } from 'styled-components';
 import Manifest from 'next-manifest/manifest';
 import Document, { Head, Main, NextScript } from 'next/document';
 
@@ -34,7 +34,7 @@ export default class MyDocument extends Document {
             themeColor="#000000"
             initialScale="1"
           />
-          <GlobalStyles />
+          <link href="/static/app.css" rel="stylesheet" />
         </Head>
         <body>
           <Main />
@@ -44,37 +44,3 @@ export default class MyDocument extends Document {
     );
   }
 }
-
-const GlobalStyles = createGlobalStyle({
-  '@font-face': {
-    fontFamily: 'Pilat Extended Bold',
-    fontStyle: 'normal',
-    src: 'url("/static/fonts/PilatExtendedBold.WOFF") format("woff")',
-  },
-  // eslint-disable-next-line no-dupe-keys
-  '@font-face': {
-    fontFamily: 'Pilat Bold',
-    fontStyle: 'normal',
-    src: 'url("/static/fonts/PilatBold.WOFF") format("woff")',
-  },
-  '*, *:before, *:after': {
-    margin: '0',
-    padding: '0',
-    position: 'relative',
-    boxSizing: 'border-box',
-  },
-  html: {
-    '-moz-osx-font-smoothing': 'grayscale',
-    '-webkit-font-smoothing': 'antialiased',
-    backgroundColor: '#000',
-    color: '#fff',
-    fontFamily: 'Pilat Bold',
-  },
-  body: {
-    minHeight: '100vh',
-    overflow: 'hidden',
-  },
-  label: {
-    display: 'block',
-  },
-});
