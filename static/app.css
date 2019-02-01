@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'Pilat Bold';
+  font-style: normal;
+  font-display: block;
+  src: url('./fonts/PilatBold.WOFF') format('WOFF');
+}
+
+@font-face {
+  font-family: 'Pilat Extended Bold';
+  font-style: normal;
+  font-display: block;
+  src: url('./fonts/PilatExtendedBold.WOFF') format('WOFF');
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -moz-osx-font-smooting: greyscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Pilat Bold';
+}
+
+body {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+label {
+  display: block;
+}
