@@ -8,6 +8,7 @@ import Link from 'next/link';
 // import ActiveScore from '../components/ActiveScore';
 // import GameStatus from '../components/GameStatus';
 // import GameTime from '../components/GameTime';
+import { compose, filter, map, prop } from 'lodash/fp';
 import teamNames from '../lib/teamNames';
 import { withRouter } from 'next/router';
 import Text from '../components/Text';
@@ -17,7 +18,6 @@ class Index extends Component {
     super(props);
     this.state = {
       promptEvent: null,
-      favTeam: '',
       loading: true,
     };
   }
@@ -34,6 +34,8 @@ class Index extends Component {
   }
 
   componentDidMount() {
+    const { games, router } = this.props;
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('beforeinstallprompt', e => {
         e.preventDefault(); // Prevents prompt display initially
@@ -41,27 +43,37 @@ class Index extends Component {
       });
     }
 
-    window.localStorage
-      ? this.setState({
+    if (window.localStorage) {
+      this.setState(
+        {
           favTeam: localStorage.getItem('favTeam') || '',
-          loading: false,
-        })
-      : null;
+        },
+        () => {
+          const mapGame = xs =>
+            xs.map(xs => {
+              return {
+                id: xs.gameId,
+                matchup: [xs.hTeam.triCode, xs.vTeam.triCode],
+              };
+            });
+
+          const teamPlayingToday = compose(
+            map(prop('id')),
+            filter({ matchup: [this.state.favTeam] }),
+            mapGame,
+          );
+
+          teamPlayingToday(games).length
+            ? router.push(`/game/${teamPlayingToday(games)}`)
+            : this.setState({ loading: false });
+        },
+      );
+    }
   }
 
   render() {
     const { games, router } = this.props;
-    const { favTeam, loading } = this.state;
-
-    const isPlaying = game =>
-      game.hTeam.triCode === favTeam || game.vTeam.triCode === favTeam;
-
-    const gameIsActive = game =>
-      isPlaying(game) && game.isGameActivated === true
-        ? router.push(`/game/${game.gameId}`)
-        : `The ${teamNames[game.hTeam.triCode]} take on the ${
-            teamNames[game.vTeam.triCode]
-          } @ ${game.arena.name}. Game starts at ${game.startTimeEastern}`;
+    const { loading, favTeam } = this.state;
 
     !loading && !favTeam ? router.push('/teams') : null;
 
@@ -71,7 +83,12 @@ class Index extends Component {
           <div key={game.gameId}>
             <Text fontSize={3} mb={3} as={'label'} htmlFor={'team-picker'}>
               <Link href={{ pathname: `/game/${game.gameId}` }}>
-                <a>{gameIsActive(game)}</a>
+                <a>
+                  {`the ${teamNames[game.hTeam.triCode]} take on the ${
+                    teamNames[game.vTeam.triCode]
+                  } @ ${game.arena.name}. Game
+                starts at ${game.startTimeEastern}`}
+                </a>
               </Link>
             </Text>
           </div>
@@ -84,8 +101,8 @@ class Index extends Component {
 }
 
 Index.propTypes = {
-  games: PropTypes.array.isRequired,
-  router: PropTypes.object.isRequired,
+  games: PropTypes.array,
+  router: PropTypes.object,
 };
 
 export default withRouter(Index);
