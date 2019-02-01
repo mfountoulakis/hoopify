@@ -2,8 +2,9 @@ const express = require('express');
 const request = require('request');
 const port = process.env.PORT || 4000;
 const app = express();
-const moment = require('moment-timezone');
 const cors = require('cors');
+
+const moment = require('moment-timezone');
 const rp = require('request-promise');
 const errorHandlers = require('./handlers/errorHandlers');
 
@@ -14,11 +15,8 @@ const date =
 
 const router = express.Router();
 
-let seasonYear;
-
 app.use(cors());
 app.use('/api', router);
-
 app.use(errorHandlers.notFound);
 
 router.get('/teams', (req, res) => {
@@ -29,7 +27,7 @@ router.get('/teams', (req, res) => {
   };
   rp(options)
     .then(result => {
-      res.send(result);
+      res.send(JSON.stringify(result));
     })
     .catch(error => {
       console.log('Oops, ERROR!', error);
@@ -55,7 +53,7 @@ router.get('/today', (req, res) => {
 router.get('/players', (req, res) => {
   let options = {
     method: 'GET',
-    uri: `http://data.nba.net/prod/v1/${seasonYear}/players.json`,
+    uri: `http://data.nba.net/prod/v1/2018/players.json`,
     json: true, // Automatically stringifies the body to JSON
   };
 
