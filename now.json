@@ -1,6 +1,7 @@
 {
+  "name": "hoopify",
+  "alias": "hoopify.app",
   "version": 2,
-
   "env": {
     "NODE_ENV": "production",
     "BASEURL": "https://hoopify.app"
