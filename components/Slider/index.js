@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import posed from 'react-pose';
-import { Box, Flex } from '@rebass/grid';
+import { Flex } from '@rebass/grid';
 
 import t from '../../lib/theme';
 import Text from '../Text';
-import PlayerPhoto from '../PlayerPhoto';
 import SliderPanel from './SliderPanel';
 import StatLeader from './StatLeader';
 

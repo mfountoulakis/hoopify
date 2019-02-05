@@ -22,14 +22,14 @@ const playerNameCSS = {
   whiteSpace: 'nowrap',
 };
 
-const StatLeader = props => (
+const StatLeader = ({ playerName, statNumber }) => (
   <Flex alignItems="center" justifyContent="space-between" css={containerCSS}>
     <Box mr={4} mb={4} css={playerDetailCSS}>
       <PlayerPhoto mb={2} />
-      <Text css={playerNameCSS}>{props.playerName}</Text>
+      <Text css={playerNameCSS}>{playerName}</Text>
     </Box>
     <Text fontSize={3} css={{ lineHeight: '0' }}>
-      {props.statNumber}
+      {statNumber}
     </Text>
   </Flex>
 );
