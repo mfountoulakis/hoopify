@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { ViewLayout } from '../components/Layout';
 import Link from 'next/link';
-
-// import ActiveScore from '../components/ActiveScore';
-// import GameStatus from '../components/GameStatus';
-// import GameTime from '../components/GameTime';
 import { compose, filter, map, prop } from 'lodash/fp';
 import teamNames from '../lib/teamNames';
 import { withRouter } from 'next/router';
@@ -18,7 +14,6 @@ class Index extends Component {
     super(props);
     this.state = {
       promptEvent: null,
-      loading: true,
     };
   }
 
@@ -33,49 +28,49 @@ class Index extends Component {
     };
   }
 
-  componentDidMount() {
-    const { games, router } = this.props;
+  filterFavorite = () => {
+    const { games, router, favTeam } = this.props;
 
+    const mapGame = xs =>
+      xs.map(xs => {
+        return {
+          id: xs.gameId,
+          matchup: [xs.hTeam.triCode, xs.vTeam.triCode],
+        };
+      });
+
+    const teamPlayingToday = compose(
+      map(prop('id')),
+      filter({ matchup: [favTeam] }),
+      mapGame,
+    );
+    teamPlayingToday(games).length
+      ? router.push(`/game/${teamPlayingToday(games)}`)
+      : null;
+  };
+
+  componentDidMount() {
+    const { favTeam, router } = this.props;
     if ('serviceWorker' in navigator) {
       window.addEventListener('beforeinstallprompt', e => {
         e.preventDefault(); // Prevents prompt display initially
         this.setState({ promptEvent: e });
       });
     }
+    if (!favTeam) {
+      router.push('/teams');
+    }
+    this.filterFavorite();
+  }
 
-    if (window.localStorage) {
-      this.setState(
-        {
-          favTeam: localStorage.getItem('favTeam') || '',
-        },
-        () => {
-          const mapGame = xs =>
-            xs.map(xs => {
-              return {
-                id: xs.gameId,
-                matchup: [xs.hTeam.triCode, xs.vTeam.triCode],
-              };
-            });
-
-          const teamPlayingToday = compose(
-            map(prop('id')),
-            filter({ matchup: [this.state.favTeam] }),
-            mapGame,
-          );
-
-          teamPlayingToday(games).length
-            ? router.push(`/game/${teamPlayingToday(games)}`)
-            : this.setState({ loading: false });
-        },
-      );
+  componentDidUpdate(prevProps) {
+    if (this.props.favTeam !== prevProps.favTeam) {
+      this.filterFavorite();
     }
   }
 
   render() {
-    const { games, router } = this.props;
-    const { loading, favTeam } = this.state;
-
-    !loading && !favTeam ? router.push('/teams') : null;
+    const { games, loading } = this.props;
 
     return !loading ? (
       <ViewLayout>
@@ -101,6 +96,8 @@ class Index extends Component {
 }
 
 Index.propTypes = {
+  favTeam: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
   games: PropTypes.array,
   router: PropTypes.object,
 };
