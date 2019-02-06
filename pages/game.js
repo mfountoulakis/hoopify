@@ -3,8 +3,6 @@ import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-unfetch';
 
-import Slider from '../components/Slider';
-
 const Game = props => {
   const {
     game: {
@@ -17,17 +15,14 @@ const Game = props => {
   } = props;
 
   return (
-    <>
-      <ul>
-        <li>
-          {/* {hLeaders.points.players.map(p => p.personId)} */}
-          {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
-          {vTeam.score})
-        </li>
-        <li>clock: {clock}</li>
-      </ul>
-      <Slider />
-    </>
+    <ul>
+      <li>
+        {/* {hLeaders.points.players.map(p => p.personId)} */}
+        {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
+        {vTeam.score})
+      </li>
+      <li>clock: {clock}</li>
+    </ul>
   );
 };
 
