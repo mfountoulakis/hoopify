@@ -36,8 +36,7 @@ class Teams extends Component {
       <ViewLayout
         bottom={
           <ActionButton onClick={() => this.props.filterFavorite()}>GO</ActionButton>
-        }
-      >
+        }>
         <Text fontSize={3} mb={4} as={'label'} htmlFor={'team-picker'}>
           Choose your favorite NBA team to start:
         </Text>
