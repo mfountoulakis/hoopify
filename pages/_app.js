@@ -34,7 +34,7 @@ export default class MyApp extends App {
   componentDidMount() {
     if (window.localStorage) {
       const favTeam = localStorage.getItem('favTeam');
-      this.setState({ favTeam })
+      this.setState({ favTeam, loading: false })
     }
 
     if ('serviceWorker' in navigator) {
@@ -64,7 +64,7 @@ export default class MyApp extends App {
     );
     teamPlayingToday(games).length
       ? router.push(`/game/${teamPlayingToday(games)}`)
-      : this.setState({ loading: false });
+      : router.push('/')
   };
 
   render() {
@@ -78,10 +78,10 @@ export default class MyApp extends App {
               {...pageProps}
               {...this.props}
               {...this.state}
+              filterFavorite={this.filterFavorite}
               setFavTeam={v =>
                 this.setState({ favTeam: v }, () => {
                   localStorage.setItem('favTeam', this.state.favTeam);
-                  this.filterFavorite();
                 })
               }
             />
