@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Flex } from '@rebass/grid';
 
+import Navigation from '../Navigation';
+
 export const MaxBound = props => <Box px={2} mx={'auto'} {...props} />;
 
 const bottomCss = {
@@ -13,18 +15,22 @@ const bottomCss = {
   width: '100%',
 };
 
-export const ViewLayout = props => {
+export const View = props => {
   return (
     <Box>
       <Flex pt={6}>
         <MaxBound>{props.children}</MaxBound>
       </Flex>
-      {props.bottom && <Flex css={bottomCss}>{props.bottom}</Flex>}
+      {props.bottom ? (
+        <Flex css={bottomCss}>{props.bottom}</Flex>
+      ) : (
+        <Navigation />
+      )}
     </Box>
   );
 };
 
-ViewLayout.propTypes = {
+View.propTypes = {
   children: PropTypes.node.isRequired,
   bottom: PropTypes.node,
 };
