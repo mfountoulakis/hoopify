@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import { withRouter } from 'next/router';
+
 import { ViewLayout } from '../components/Layout';
 import ActionButton from '../components/ActionButton';
 import Text from '../components/Text';
@@ -19,7 +20,11 @@ class Teams extends Component {
     };
   }
 
-  handleChange = event => this.props.setFavTeam(event.target.value);
+  setFavoriteTeam = team => {
+    localStorage.setItem('favTeam', team);
+  };
+
+  handleChange = event => this.setFavoriteTeam(event.target.value);
 
   render() {
     const {
@@ -62,7 +67,6 @@ class Teams extends Component {
 Teams.propTypes = {
   teams: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,
-  setFavTeam: PropTypes.func.isRequired,
 };
 
 export default withRouter(Teams);
