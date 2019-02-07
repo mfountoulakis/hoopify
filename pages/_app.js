@@ -34,9 +34,7 @@ export default class MyApp extends App {
   componentDidMount() {
     if (window.localStorage) {
       const favTeam = localStorage.getItem('favTeam');
-      this.setState({ favTeam }, function() {
-        this.filterFavorite();
-      });
+      this.setState({ favTeam })
     }
 
     if ('serviceWorker' in navigator) {
