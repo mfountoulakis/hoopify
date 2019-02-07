@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
-import getConfig from 'next/config';
 import { ViewLayout } from '../components/Layout';
 import Link from 'next/link';
-
-// import ActiveScore from '../components/ActiveScore';
-// import GameStatus from '../components/GameStatus';
-// import GameTime from '../components/GameTime';
-import { compose, filter, map, prop } from 'lodash/fp';
 import teamNames from '../lib/teamNames';
 import { withRouter } from 'next/router';
 import Text from '../components/Text';
@@ -18,64 +11,11 @@ class Index extends Component {
     super(props);
     this.state = {
       promptEvent: null,
-      loading: true,
     };
-  }
-
-  static async getInitialProps() {
-    const { publicRuntimeConfig } = getConfig();
-    const url = `${publicRuntimeConfig.BASEURL}`;
-    const result = await fetch(`${url}/api/today`);
-    const json = await result.json();
-
-    return {
-      games: json.games,
-    };
-  }
-
-  componentDidMount() {
-    const { games, router } = this.props;
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('beforeinstallprompt', e => {
-        e.preventDefault(); // Prevents prompt display initially
-        this.setState({ promptEvent: e });
-      });
-    }
-
-    if (window.localStorage) {
-      this.setState(
-        {
-          favTeam: localStorage.getItem('favTeam') || '',
-        },
-        () => {
-          const mapGame = xs =>
-            xs.map(xs => {
-              return {
-                id: xs.gameId,
-                matchup: [xs.hTeam.triCode, xs.vTeam.triCode],
-              };
-            });
-
-          const teamPlayingToday = compose(
-            map(prop('id')),
-            filter({ matchup: [this.state.favTeam] }),
-            mapGame,
-          );
-
-          teamPlayingToday(games).length
-            ? router.push(`/game/${teamPlayingToday(games)}`)
-            : this.setState({ loading: false });
-        },
-      );
-    }
   }
 
   render() {
-    const { games, router } = this.props;
-    const { loading, favTeam } = this.state;
-
-    !loading && !favTeam ? router.push('/teams') : null;
+    const { games, loading } = this.props;
 
     return !loading ? (
       <ViewLayout>
@@ -101,6 +41,8 @@ class Index extends Component {
 }
 
 Index.propTypes = {
+  favTeam: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
   games: PropTypes.array,
   router: PropTypes.object,
 };
