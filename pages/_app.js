@@ -1,11 +1,13 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import { ThemeProvider } from 'styled-components';
-import GameContext from '../context/GameContext';
-import theme from '../lib/theme';
 import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
 import { compose, filter, map, prop } from 'lodash/fp';
+
+import GameContext from '../context/GameContext';
+import theme from '../lib/theme';
+import { View } from '../components/Layout';
 
 export default class MyApp extends App {
   constructor(props) {
@@ -34,7 +36,7 @@ export default class MyApp extends App {
   componentDidMount() {
     if (window.localStorage) {
       const favTeam = localStorage.getItem('favTeam');
-      this.setState({ favTeam, loading: false })
+      this.setState({ favTeam, loading: false });
     }
 
     if ('serviceWorker' in navigator) {
@@ -64,7 +66,7 @@ export default class MyApp extends App {
     );
     teamPlayingToday(games).length
       ? router.push(`/game/${teamPlayingToday(games)}`)
-      : router.push('/')
+      : router.push('/');
   };
 
   render() {
@@ -74,17 +76,19 @@ export default class MyApp extends App {
       <Container>
         <ThemeProvider theme={theme}>
           <GameContext.Provider value={this.state.favTeam}>
-            <Component
-              {...pageProps}
-              {...this.props}
-              {...this.state}
-              filterFavorite={this.filterFavorite}
-              setFavTeam={v =>
-                this.setState({ favTeam: v }, () => {
-                  localStorage.setItem('favTeam', this.state.favTeam);
-                })
-              }
-            />
+            <View>
+              <Component
+                {...pageProps}
+                {...this.props}
+                {...this.state}
+                filterFavorite={this.filterFavorite}
+                setFavTeam={v =>
+                  this.setState({ favTeam: v }, () => {
+                    localStorage.setItem('favTeam', this.state.favTeam);
+                  })
+                }
+              />
+            </View>
           </GameContext.Provider>
         </ThemeProvider>
       </Container>
