@@ -24,13 +24,14 @@ export const View = props => {
       {props.bottom ? (
         <Flex css={bottomCss}>{props.bottom}</Flex>
       ) : (
-        <Navigation />
+        <Navigation filterFavorite={props.filterFavorite}/>
       )}
     </Box>
   );
 };
 
 View.propTypes = {
+  filterFavorite: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   bottom: PropTypes.node,
 };
