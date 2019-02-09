@@ -24,7 +24,7 @@ export const View = props => {
       {props.bottom ? (
         <Flex css={bottomCss}>{props.bottom}</Flex>
       ) : (
-        <Navigation filterFavorite={props.filterFavorite}/>
+        <Navigation filterFavorite={props.filterFavorite} />
       )}
     </Box>
   );

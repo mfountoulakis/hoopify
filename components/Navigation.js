@@ -49,7 +49,11 @@ class Navigation extends React.Component {
             </Tab>
           </a>
 
-          <a href="/game" style={{ textDecoration: 'none' }} onClick={filterFavorite}>
+          <a
+            href="/game"
+            style={{ textDecoration: 'none' }}
+            onClick={filterFavorite}
+          >
             <Tab>
               <Heart
                 size={24}
