@@ -4,7 +4,6 @@ import { ThemeProvider } from 'styled-components';
 import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
 import { compose, filter, map, prop } from 'lodash/fp';
-
 import GameContext from '../context/GameContext';
 import theme from '../lib/theme';
 import { View } from '../components/Layout';
@@ -64,6 +63,7 @@ export default class MyApp extends App {
       filter({ matchup: [favTeam] }),
       mapGame,
     );
+
     teamPlayingToday(games).length
       ? router.push(`/game/${teamPlayingToday(games)}`)
       : router.push('/');
@@ -76,7 +76,7 @@ export default class MyApp extends App {
       <Container>
         <ThemeProvider theme={theme}>
           <GameContext.Provider value={this.state.favTeam}>
-            <View>
+            <View filterFavorite={this.filterFavorite}>
               <Component
                 {...pageProps}
                 {...this.props}
