@@ -34,8 +34,13 @@ const Tab = styled(Flex)({
 });
 
 class Navigation extends React.Component {
+  handleClick = e => {
+    this.props.filterFavorite();
+    e.preventDefault();
+  };
+
   render() {
-    const { router, filterFavorite } = this.props;
+    const { router } = this.props;
     return (
       <Flex as="nav" px={4} pt={3} css={navCSS}>
         <Tabs>
@@ -52,7 +57,7 @@ class Navigation extends React.Component {
           <a
             href="/game"
             style={{ textDecoration: 'none' }}
-            onClick={filterFavorite}
+            onClick={e => this.handleClick(e)}
           >
             <Tab>
               <Heart
