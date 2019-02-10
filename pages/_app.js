@@ -32,10 +32,23 @@ export default class MyApp extends App {
     return { pageProps, games: json.games };
   }
 
+  setFavTeam = favTeam => {
+    return Promise.resolve(localStorage.setItem('favTeam', favTeam));
+  };
+
+  getFavTeam = () => {
+    return Promise.resolve(localStorage.getItem('favTeam'));
+  };
+
   componentDidMount() {
+    const { router } = this.props;
+
     if (window.localStorage) {
-      const favTeam = localStorage.getItem('favTeam');
-      this.setState({ favTeam, loading: false });
+      this.getFavTeam().then(favTeam => {
+        console.log(favTeam, favTeam.length);
+        favTeam.length ? null : router.push('/teams');
+        this.setState({ favTeam, loading: false });
+      });
     }
 
     if ('serviceWorker' in navigator) {
@@ -49,6 +62,12 @@ export default class MyApp extends App {
   filterFavorite = () => {
     const { favTeam } = this.state;
     const { games, router } = this.props;
+
+    if (favTeam.length === 0) {
+      router.push('/teams');
+    }
+
+    console.log();
 
     const mapGame = xs =>
       xs.map(xs => {
@@ -66,7 +85,7 @@ export default class MyApp extends App {
 
     teamPlayingToday(games).length
       ? router.push(`/game/${teamPlayingToday(games)}`)
-      : router.push('/');
+      : null;
   };
 
   render() {
@@ -84,7 +103,8 @@ export default class MyApp extends App {
                 filterFavorite={this.filterFavorite}
                 setFavTeam={v =>
                   this.setState({ favTeam: v }, () => {
-                    localStorage.setItem('favTeam', this.state.favTeam);
+                    this.setFavTeam(this.state.favTeam);
+                    // localStorage.setItem('favTeam', this.state.favTeam);
                   })
                 }
               />
