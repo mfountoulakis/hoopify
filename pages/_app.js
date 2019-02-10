@@ -45,7 +45,6 @@ export default class MyApp extends App {
 
     if (window.localStorage) {
       this.getFavTeam().then(favTeam => {
-        console.log(favTeam, favTeam.length);
         favTeam.length ? null : router.push('/teams');
         this.setState({ favTeam, loading: false });
       });
@@ -66,8 +65,6 @@ export default class MyApp extends App {
     if (favTeam.length === 0) {
       router.push('/teams');
     }
-
-    console.log();
 
     const mapGame = xs =>
       xs.map(xs => {
