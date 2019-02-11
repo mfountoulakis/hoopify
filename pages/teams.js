@@ -30,7 +30,7 @@ class Teams extends Component {
 
     const standardTeams = Nba(standard);
     return (
-      <div>
+      <React.Fragment>
         <Text fontSize={3} mb={4} as={'label'} htmlFor={'team-picker'}>
           Choose your favorite NBA team to start:
         </Text>
@@ -45,7 +45,7 @@ class Teams extends Component {
           Free agent fan? Don’t stress it, you can choose a different team later
           in the settings.
         </Text>
-      </div>
+      </React.Fragment>
     );
   }
 }
