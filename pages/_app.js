@@ -101,7 +101,6 @@ export default class MyApp extends App {
                 setFavTeam={v =>
                   this.setState({ favTeam: v }, () => {
                     this.setFavTeam(this.state.favTeam);
-                    // localStorage.setItem('favTeam', this.state.favTeam);
                   })
                 }
               />
