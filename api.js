@@ -66,10 +66,9 @@ router.get('/players', (req, res) => {
     });
 });
 router.get('/boxscore/:gameId', (req, res) => {
+  const gameId = req.params.gameId;
   let options = {
-    uri: `http://data.nba.net/prod/v1/${date}/${
-      req.params.gameId
-    }_boxscore.json`,
+    uri: `http://data.nba.net/10s/prod/v1/${date}/${gameId}_boxscore.json`,
     method: 'GET',
     json: true, // Automatically stringifies the body to JSON
   };

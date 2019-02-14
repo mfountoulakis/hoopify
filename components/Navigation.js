@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Flex } from '@rebass/grid';
 import { Heart, Activity, Settings } from 'react-feather';
 
+import ActionButton from './ActionButton';
 import Text from './Text';
 import t from '../lib/theme';
 
@@ -34,53 +35,73 @@ const Tab = styled(Flex)({
 });
 
 class Navigation extends React.Component {
+  handleClick = e => {
+    this.props.filterFavorite();
+    e.preventDefault();
+  };
+
   render() {
-    const { router } = this.props;
+    const { router, filterFavorite } = this.props;
     return (
-      <Flex as="nav" px={4} pt={3} css={navCSS}>
-        <Tabs>
-          <a href="/" style={{ textDecoration: 'none' }}>
-            <Tab>
-              <Activity
-                size={24}
-                color={router.pathname === '/' ? `${t.colors.orange}` : '#fff'}
-              />
-              <Text fontSize={0}>Today</Text>
-            </Tab>
-          </a>
+      <React.Fragment>
+        {router.pathname === '/teams' ? (
+          <ActionButton onClick={filterFavorite}>GO</ActionButton>
+        ) : (
+          <Flex as="nav" px={4} pt={3} css={navCSS}>
+            <Tabs>
+              <a href="/" style={{ textDecoration: 'none' }}>
+                <Tab>
+                  <Activity
+                    size={24}
+                    color={
+                      router.pathname === '/' ? `${t.colors.orange}` : '#fff'
+                    }
+                  />
+                  <Text fontSize={0}>Today</Text>
+                </Tab>
+              </a>
 
-          <a href="/game" style={{ textDecoration: 'none' }}>
-            <Tab>
-              <Heart
-                size={24}
-                color={
-                  router.pathname === '/game' ? `${t.colors.orange}` : '#fff'
-                }
-              />
-              <Text fontSize={0}>My Team</Text>
-            </Tab>
-          </a>
+              <a
+                href="/game"
+                style={{ textDecoration: 'none' }}
+                onClick={e => this.handleClick(e)}
+              >
+                <Tab>
+                  <Heart
+                    size={24}
+                    color={
+                      router.pathname === '/game'
+                        ? `${t.colors.orange}`
+                        : '#fff'
+                    }
+                  />
+                  <Text fontSize={0}>My Team</Text>
+                </Tab>
+              </a>
 
-          <a href="/settings" style={{ textDecoration: 'none' }}>
-            <Tab>
-              <Settings
-                size={24}
-                color={
-                  router.pathname === '/settings'
-                    ? `${t.colors.orange}`
-                    : '#fff'
-                }
-              />
-              <Text fontSize={0}>Settings</Text>
-            </Tab>
-          </a>
-        </Tabs>
-      </Flex>
+              <a href="/settings" style={{ textDecoration: 'none' }}>
+                <Tab>
+                  <Settings
+                    size={24}
+                    color={
+                      router.pathname === '/settings'
+                        ? `${t.colors.orange}`
+                        : '#fff'
+                    }
+                  />
+                  <Text fontSize={0}>Settings</Text>
+                </Tab>
+              </a>
+            </Tabs>
+          </Flex>
+        )}
+      </React.Fragment>
     );
   }
 }
 
 Navigation.propTypes = {
+  filterFavorite: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
 };
 

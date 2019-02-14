@@ -4,7 +4,6 @@ import { ThemeProvider } from 'styled-components';
 import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
 import { compose, filter, map, prop } from 'lodash/fp';
-
 import GameContext from '../context/GameContext';
 import theme from '../lib/theme';
 import { View } from '../components/Layout';
@@ -33,10 +32,22 @@ export default class MyApp extends App {
     return { pageProps, games: json.games };
   }
 
+  setFavTeam = favTeam => {
+    return Promise.resolve(localStorage.setItem('favTeam', favTeam));
+  };
+
+  getFavTeam = () => {
+    return Promise.resolve(localStorage.getItem('favTeam'));
+  };
+
   componentDidMount() {
+    const { router } = this.props;
+
     if (window.localStorage) {
-      const favTeam = localStorage.getItem('favTeam');
-      this.setState({ favTeam, loading: false });
+      this.getFavTeam().then(favTeam => {
+        favTeam.length ? null : router.push('/teams');
+        this.setState({ favTeam, loading: false });
+      });
     }
 
     if ('serviceWorker' in navigator) {
@@ -51,6 +62,10 @@ export default class MyApp extends App {
     const { favTeam } = this.state;
     const { games, router } = this.props;
 
+    if (favTeam.length === 0) {
+      router.push('/teams');
+    }
+
     const mapGame = xs =>
       xs.map(xs => {
         return {
@@ -64,9 +79,10 @@ export default class MyApp extends App {
       filter({ matchup: [favTeam] }),
       mapGame,
     );
+
     teamPlayingToday(games).length
       ? router.push(`/game/${teamPlayingToday(games)}`)
-      : router.push('/');
+      : null;
   };
 
   render() {
@@ -76,7 +92,7 @@ export default class MyApp extends App {
       <Container>
         <ThemeProvider theme={theme}>
           <GameContext.Provider value={this.state.favTeam}>
-            <View>
+            <View filterFavorite={this.filterFavorite}>
               <Component
                 {...pageProps}
                 {...this.props}
@@ -84,7 +100,7 @@ export default class MyApp extends App {
                 filterFavorite={this.filterFavorite}
                 setFavTeam={v =>
                   this.setState({ favTeam: v }, () => {
-                    localStorage.setItem('favTeam', this.state.favTeam);
+                    this.setFavTeam(this.state.favTeam);
                   })
                 }
               />
