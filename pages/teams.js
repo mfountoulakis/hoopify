@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import fetch from 'isomorphic-unfetch';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
+
 import Text from '../components/Text';
 import Select from '../components/Select';
 
