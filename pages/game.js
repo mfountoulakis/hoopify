@@ -2,53 +2,45 @@ import React from 'react';
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import fetch from 'isomorphic-unfetch';
+import { Flex } from '@rebass/grid';
 
-const Game = props => {
-  const {
-    game: {
-      basicGameData: { hTeam, vTeam, clock },
-      // stats: {
-      // hTeam: { leaders: hLeaders } = {},
-      // vTeam: { leaders: vLeaders } = {},
-      // } = {},
-    },
-  } = props;
+import Scoreboard from '../components/Scoreboard';
+class Game extends React.Component {
+  static async getInitialProps({ query }) {
+    const { publicRuntimeConfig } = getConfig();
+    const { id } = query;
+    const url = `${publicRuntimeConfig.BASEURL}`;
+    const [game, players] = await Promise.all([
+      fetch(`${url}/api/boxscore/${id}`),
+      fetch(`${url}/api/players`),
+    ]);
+    const g = await game.json();
+    const p = await players.json();
 
-  return (
-    // <h1>hi</h1>
-    <ul>
-      <li>
-        {/* {hLeaders.points.players.map(p => p.personId)} */}
-        {hTeam.triCode} (score: {hTeam.score}) vs {vTeam.triCode} (score:{' '}
-        {vTeam.score})
-      </li>
-      <li>clock: {clock}</li>
-    </ul>
-  );
-};
+    return {
+      game: g,
+      players: p,
+    };
+  }
 
-Game.getInitialProps = async context => {
-  const { publicRuntimeConfig } = getConfig();
-  const { id } = context.query;
+  render() {
+    const {
+      game,
+      game: {
+        basicGameData: { hTeam, vTeam, clock },
+      },
+    } = this.props;
 
-  const url = `${publicRuntimeConfig.BASEURL}`;
-
-  /* eslint-disable no-unused-vars */
-  const [game, players] = await Promise.all([
-    fetch(`${url}/api/boxscore/${id}`),
-    fetch(`${url}/api/players`),
-  ]);
-  /* eslint-disable no-unused-vars */
-  const g = await game.json();
-  const p = await players.json();
-
-  return {
-    game: g,
-    players: p,
-  };
-};
-
-Game.displayName = 'Game';
+    return (
+      <Flex>
+        <Flex>{hTeam.toString}</Flex>
+        <Flex>{vTeam.toString}</Flex>
+        <Flex>{clock.toString}</Flex>
+        <Scoreboard game={game} />
+      </Flex>
+    );
+  }
+}
 
 Game.propTypes = {
   game: PropTypes.object.isRequired,

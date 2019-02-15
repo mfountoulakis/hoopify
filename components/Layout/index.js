@@ -18,9 +18,7 @@ const bottomCss = {
 export const View = props => {
   return (
     <Box>
-      <Flex pt={6}>
-        <MaxBound>{props.children}</MaxBound>
-      </Flex>
+      <MaxBound pt={6}>{props.children}</MaxBound>
       {props.bottom ? (
         <Flex css={bottomCss}>{props.bottom}</Flex>
       ) : (
