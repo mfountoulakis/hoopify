@@ -19,11 +19,24 @@ app.use(cors());
 app.use('/api', router);
 app.use(errorHandlers.notFound);
 
+fetchSeasonYear = () =>
+  rp({
+    method: 'GET',
+    uri: `http://data.nba.net/10s/prod/v1/today.json`,
+    json: true,
+  });
+
+if (!global.seasonYear) {
+  fetchSeasonYear().then(res => {
+    global.seasonYear = res.seasonScheduleYear;
+  });
+}
+
 router.get('/teams', (req, res) => {
   let options = {
     method: 'GET',
-    uri: `http://data.nba.net/prod/v2/2018/teams.json`,
-    json: true, // Automatically stringifies the body to JSON
+    uri: `http://data.nba.net/prod/v2/${global.seasonYear}/teams.json`,
+    json: true,
   };
   rp(options)
     .then(result => {
@@ -33,18 +46,17 @@ router.get('/teams', (req, res) => {
       console.log('Oops, ERROR!', error);
     });
 });
+
 router.get('/today', (req, res) => {
   let options = {
     method: 'GET',
     uri: `http://data.nba.net/prod/v1/${date}/scoreboard.json`,
-    json: true, // Automatically stringifies the body to JSON
+    json: true,
   };
 
   rp(options)
     .then(result => {
       res.send(JSON.stringify(result));
-      //get seasonYear from first game
-      seasonYear = result.games[0].seasonYear;
     })
     .catch(error => {
       console.log('Oops, ERROR!', error);
@@ -53,8 +65,8 @@ router.get('/today', (req, res) => {
 router.get('/players', (req, res) => {
   let options = {
     method: 'GET',
-    uri: `http://data.nba.net/prod/v1/2018/players.json`,
-    json: true, // Automatically stringifies the body to JSON
+    uri: `http://data.nba.net/prod/v1/${global.seasonYear}/players.json`,
+    json: true,
   };
 
   rp(options)
@@ -70,7 +82,7 @@ router.get('/boxscore/:gameId', (req, res) => {
   let options = {
     uri: `http://data.nba.net/10s/prod/v1/${date}/${gameId}_boxscore.json`,
     method: 'GET',
-    json: true, // Automatically stringifies the body to JSON
+    json: true,
   };
   rp(options)
     .then(result => {
