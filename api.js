@@ -36,7 +36,7 @@ router.get('/teams', (req, res) => {
   let options = {
     method: 'GET',
     uri: `http://data.nba.net/prod/v2/${global.seasonYear}/teams.json`,
-    json: true, // Automatically stringifies the body to JSON
+    json: true,
   };
   rp(options)
     .then(result => {
@@ -51,13 +51,12 @@ router.get('/today', (req, res) => {
   let options = {
     method: 'GET',
     uri: `http://data.nba.net/prod/v1/${date}/scoreboard.json`,
-    json: true, // Automatically stringifies the body to JSON
+    json: true,
   };
 
   rp(options)
     .then(result => {
       res.send(JSON.stringify(result));
-      //get seasonYear from first game
     })
     .catch(error => {
       console.log('Oops, ERROR!', error);
