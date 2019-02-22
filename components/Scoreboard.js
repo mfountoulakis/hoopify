@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flex, Box } from '@rebass/grid';
-
+import { Flex } from '@rebass/grid';
 import Text from './Text';
 
 /**
@@ -16,7 +15,12 @@ class Scoreboard extends React.Component {
     return (
       <Flex flex={1} justifyContent="space-between">
         <Flex alignItems="center">
-          <Box
+          <img
+            src={`../static/images/teams/${
+              game.basicGameData.hTeam.triCode
+            }.svg`}
+          />
+          {/* <Box
             bg="orange"
             mr={3}
             css={{
@@ -24,7 +28,7 @@ class Scoreboard extends React.Component {
               height: '56px',
               borderRadius: '50%',
             }}
-          />
+          /> */}
 
           <Flex flexDirection="column" alignItems="center">
             <Text fontSize={3}>{game.basicGameData.hTeam.score}</Text>
@@ -47,7 +51,12 @@ class Scoreboard extends React.Component {
               {game.basicGameData.vTeam.triCode}
             </Text>
           </Flex>
-          <Box
+          <img
+            src={`../static/images/teams/${
+              game.basicGameData.vTeam.triCode
+            }.svg`}
+          />
+          {/* <Box
             bg="orange"
             ml={3}
             css={{
@@ -55,7 +64,7 @@ class Scoreboard extends React.Component {
               height: '56px',
               borderRadius: '50%',
             }}
-          />
+          /> */}
         </Flex>
       </Flex>
     );
