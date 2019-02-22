@@ -29,7 +29,6 @@ class Scoreboard extends React.Component {
               borderRadius: '50%',
             }}
           /> */}
-
           <Flex flexDirection="column" alignItems="center">
             <Text fontSize={3}>{game.basicGameData.hTeam.score}</Text>
             <Text caps fontSize={0}>
