@@ -11,7 +11,8 @@ import Text from './Text';
 
 class Scoreboard extends React.Component {
   render() {
-    const { game } = this.props;
+    const { game, period, clock } = this.props;
+
     return (
       <Flex flex={1} justifyContent="space-between">
         <Flex alignItems="center">
@@ -32,11 +33,12 @@ class Scoreboard extends React.Component {
             </Text>
           </Flex>
         </Flex>
-        <Flex>
+        <Flex flexDirection="column" alignItems="center">
           <Text>{game.basicGameData.time}</Text>
-          <Text caps fontSize={0}>{`Q${
-            game.basicGameData.period.current
-          }`}</Text>
+          <Text caps fontSize={0}>{`Q${period.current}`}</Text>
+          <Text caps fontSize={3}>
+            {clock}
+          </Text>
         </Flex>
         <Flex alignItems="center">
           <Flex flexDirection="column" alignItems="center">
@@ -62,6 +64,8 @@ class Scoreboard extends React.Component {
 
 Scoreboard.propTypes = {
   game: PropTypes.object.isRequired,
+  period: PropTypes.object.isRequired,
+  clock: PropTypes.string.isRequired,
 };
 
 export default Scoreboard;
