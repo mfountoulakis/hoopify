@@ -6,6 +6,14 @@ import { Flex } from '@rebass/grid';
 
 import Scoreboard from '../components/Scoreboard';
 class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clock: '',
+      period: '',
+    };
+  }
+
   static async getInitialProps({ query }) {
     const { publicRuntimeConfig } = getConfig();
     const { id } = query;
@@ -23,22 +31,52 @@ class Game extends React.Component {
     };
   }
 
+  sleep = time => new Promise(resolve => setTimeout(resolve, time));
+  poll = (p, time) => p().then(this.sleep(time).then(() => this.poll(p, time)));
+
+  getClock = async () => {
+    const { game } = this.props;
+    const { publicRuntimeConfig } = getConfig();
+    const url = `${publicRuntimeConfig.BASEURL}`;
+
+    const result = await fetch(
+      `${url}/api/boxscore/${game.basicGameData.gameId}`,
+    );
+    const g = await result.json();
+    return g;
+  };
+
+  componentDidMount() {
+    this.poll(
+      () =>
+        new Promise(() =>
+          this.getClock().then(result => {
+            this.setState({
+              clock: result.basicGameData.clock,
+              period: result.basicGameData.period,
+            });
+          }),
+        ),
+      60000,
+    );
+  }
+
   render() {
     const {
       game,
       game: {
-        basicGameData: { hTeam, vTeam, clock },
+        basicGameData: { hTeam, vTeam },
       },
     } = this.props;
 
-    return (
+    const { clock, period } = this.state;
+    return period ? (
       <Flex>
         <Flex>{hTeam.toString}</Flex>
         <Flex>{vTeam.toString}</Flex>
-        <Flex>{clock.toString}</Flex>
-        <Scoreboard game={game} />
+        <Scoreboard game={game} period={period} clock={clock} />
       </Flex>
-    );
+    ) : null;
   }
 }
 
