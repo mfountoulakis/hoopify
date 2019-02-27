@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Flex } from '@rebass/grid';
+
 import Text from './Text';
 
 /**
@@ -11,10 +12,12 @@ import Text from './Text';
 class Scoreboard extends React.Component {
   render() {
     const { game } = this.props;
+
     return (
       <Flex flex={1} justifyContent="space-between">
         <Flex alignItems="center">
-          <img
+         <img
+            css={{ width: 56, height: 56 }}
             src={`../static/images/teams/${
               game.basicGameData.hTeam.triCode
             }.svg`}
@@ -35,11 +38,14 @@ class Scoreboard extends React.Component {
             </Text>
           </Flex>
         </Flex>
-        <Flex>
+        <Flex flexDirection="column" alignItems="center">
           <Text>{game.basicGameData.time}</Text>
           <Text caps fontSize={0}>{`Q${
             game.basicGameData.period.current
           }`}</Text>
+          <Text caps fontSize={3}>
+            {game.basicGameData.clock}
+          </Text>
         </Flex>
         <Flex alignItems="center">
           <Flex flexDirection="column" alignItems="center">
@@ -49,6 +55,7 @@ class Scoreboard extends React.Component {
             </Text>
           </Flex>
           <img
+            css={{ width: 56, height: 56 }}
             src={`../static/images/teams/${
               game.basicGameData.vTeam.triCode
             }.svg`}
