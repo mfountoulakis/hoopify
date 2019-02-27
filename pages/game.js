@@ -10,7 +10,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       clock: '',
-      period: '',
+      // period: '',
     };
   }
 
@@ -52,8 +52,7 @@ class Game extends React.Component {
         new Promise(() =>
           this.getClock().then(result => {
             this.setState({
-              clock: result.basicGameData.clock,
-              period: result.basicGameData.period,
+              game: result,
             });
           }),
         ),
@@ -69,14 +68,13 @@ class Game extends React.Component {
       },
     } = this.props;
 
-    const { clock, period } = this.state;
-    return period ? (
+    return (
       <Flex>
         <Flex>{hTeam.toString}</Flex>
         <Flex>{vTeam.toString}</Flex>
-        <Scoreboard game={game} period={period} clock={clock} />
+        <Scoreboard game={this.state.game || game} />
       </Flex>
-    ) : null;
+    );
   }
 }
 
