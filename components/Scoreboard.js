@@ -16,6 +16,12 @@ class Scoreboard extends React.Component {
     return (
       <Flex flex={1} justifyContent="space-between">
         <Flex alignItems="center">
+         <img
+            css={{ width: 56, height: 56 }}
+            src={`../static/images/teams/${
+              game.basicGameData.hTeam.triCode
+            }.svg`}
+          />
           {/* <Box
             bg="orange"
             mr={3}
@@ -25,12 +31,6 @@ class Scoreboard extends React.Component {
               borderRadius: '50%',
             }}
           /> */}
-          <img
-            css={{ width: 56, height: 56 }}
-            src={`../static/images/teams/${
-              game.basicGameData.hTeam.triCode
-            }.svg`}
-          />
           <Flex flexDirection="column" alignItems="center">
             <Text fontSize={3}>{game.basicGameData.hTeam.score}</Text>
             <Text caps fontSize={0}>
