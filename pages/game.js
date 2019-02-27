@@ -4,16 +4,10 @@ import PropTypes from 'prop-types';
 import fetch from 'isomorphic-unfetch';
 import { Flex } from '@rebass/grid';
 
+import Text from '../components/Text';
+import teamNames from '../lib/teamNames';
 import Scoreboard from '../components/Scoreboard';
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clock: '',
-      // period: '',
-    };
-  }
-
   static async getInitialProps({ query }) {
     const { publicRuntimeConfig } = getConfig();
     const { id } = query;
@@ -64,15 +58,24 @@ class Game extends React.Component {
     const {
       game,
       game: {
-        basicGameData: { hTeam, vTeam },
+        basicGameData: { hTeam, vTeam, isGameActivated },
       },
     } = this.props;
 
-    return (
+    return isGameActivated ? (
       <Flex>
         <Flex>{hTeam.toString}</Flex>
         <Flex>{vTeam.toString}</Flex>
-        <Scoreboard game={this.state.game || game} />
+        <Scoreboard game={game || this.state.game} />
+      </Flex>
+    ) : (
+      <Flex flexDirection="column" alignItems="center">
+        <Text fontSize={3}>
+          {`The ${teamNames[hTeam.triCode]} take on the ${
+            teamNames[vTeam.triCode]
+          } @ ${game.basicGameData.arena.name}. Game
+        starts at ${game.basicGameData.startTimeEastern}`}
+        </Text>
       </Flex>
     );
   }
