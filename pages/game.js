@@ -8,6 +8,14 @@ import Text from '../components/Text';
 import teamNames from '../lib/teamNames';
 import Scoreboard from '../components/Scoreboard';
 class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      game: '',
+      isActive: '',
+      isLoading: true,
+    };
+  }
   static async getInitialProps({ query }) {
     const { publicRuntimeConfig } = getConfig();
     const { id } = query;
@@ -47,6 +55,8 @@ class Game extends React.Component {
           this.getClock().then(result => {
             this.setState({
               game: result,
+              isActive: result.basicGameData.isGameActivated,
+              isLoading: false,
             });
           }),
         ),
@@ -58,24 +68,32 @@ class Game extends React.Component {
     const {
       game,
       game: {
-        basicGameData: { hTeam, vTeam, isGameActivated },
+        basicGameData: { hTeam, vTeam },
       },
     } = this.props;
 
-    return isGameActivated ? (
+    const { isLoading } = this.state;
+
+    let isActive = !!this.state.isActive;
+
+    return (
       <Flex>
-        <Flex>{hTeam.toString}</Flex>
-        <Flex>{vTeam.toString}</Flex>
-        <Scoreboard game={game || this.state.game} />
-      </Flex>
-    ) : (
-      <Flex flexDirection="column" alignItems="center">
-        <Text fontSize={3}>
-          {`The ${teamNames[hTeam.triCode]} take on the ${
-            teamNames[vTeam.triCode]
-          } @ ${game.basicGameData.arena.name}. Game
-        starts at ${game.basicGameData.startTimeEastern}`}
-        </Text>
+        {isLoading ? (
+          <Flex>LOADING</Flex>
+        ) : isActive ? (
+          <React.Fragment>
+            <Flex>{hTeam.toString}</Flex>
+            <Flex>{vTeam.toString}</Flex>
+            <Scoreboard game={game} />
+          </React.Fragment>
+        ) : (
+          <Text fontSize={3}>
+            {`The ${teamNames[hTeam.triCode]} take on the ${
+              teamNames[vTeam.triCode]
+            } @ ${game.basicGameData.arena.name}. Game
+          starts at ${game.basicGameData.startTimeEastern}`}
+          </Text>
+        )}
       </Flex>
     );
   }
