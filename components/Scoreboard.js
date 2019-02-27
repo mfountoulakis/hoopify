@@ -25,12 +25,6 @@ class Scoreboard extends React.Component {
               borderRadius: '50%',
             }}
           /> */}
-          <img
-            css={{ width: 56, height: 56 }}
-            src={`../static/images/teams/${
-              game.basicGameData.hTeam.triCode
-            }.svg`}
-          />
           <Flex flexDirection="column" alignItems="center">
             <Text fontSize={3}>{game.basicGameData.hTeam.score}</Text>
             <Text caps fontSize={0}>
@@ -54,12 +48,6 @@ class Scoreboard extends React.Component {
               {game.basicGameData.vTeam.triCode}
             </Text>
           </Flex>
-          <img
-            css={{ width: 56, height: 56 }}
-            src={`../static/images/teams/${
-              game.basicGameData.vTeam.triCode
-            }.svg`}
-          />
           {/* <Box
             bg="orange"
             ml={3}
@@ -77,8 +65,6 @@ class Scoreboard extends React.Component {
 
 Scoreboard.propTypes = {
   game: PropTypes.object.isRequired,
-  // period: PropTypes.object.isRequired,
-  // clock: PropTypes.string.isRequired,
 };
 
 export default Scoreboard;
