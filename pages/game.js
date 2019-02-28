@@ -84,7 +84,7 @@ class Game extends React.Component {
           <React.Fragment>
             <Flex>{hTeam.toString}</Flex>
             <Flex>{vTeam.toString}</Flex>
-            <Scoreboard game={game} />
+            <Scoreboard game={this.state.game} />
           </React.Fragment>
         ) : (
           <Text fontSize={3}>
