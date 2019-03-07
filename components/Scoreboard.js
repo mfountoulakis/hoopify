@@ -17,21 +17,22 @@ class Scoreboard extends React.Component {
     return (
       <Flex flex={1} justifyContent="space-between">
         <Flex alignItems="center">
-         <img
-            css={{ width: 56, height: 56 }}
-            src={`../static/images/teams/${
-              game.basicGameData.hTeam.triCode
-            }.svg`}
-          />
-          {/* <Box
-            bg="orange"
+          <Flex
             mr={3}
             css={{
-              width: '56px',
+              width: '100%',
+              maxWidth: '56px',
               height: '56px',
               borderRadius: '50%',
             }}
-          /> */}
+          >
+            <img
+              style={{ objectFit: 'contain' }}
+              src={`../static/images/teams/${
+                game.basicGameData.hTeam.triCode
+              }.svg`}
+            />
+          </Flex>
           <Flex flexDirection="column" alignItems="center">
             <Text fontSize={3}>{game.basicGameData.hTeam.score}</Text>
             <Text caps fontSize={0}>
@@ -58,21 +59,21 @@ class Scoreboard extends React.Component {
               {game.basicGameData.vTeam.triCode}
             </Text>
           </Flex>
-          <img
-            css={{ width: 56, height: 56 }}
-            src={`../static/images/teams/${
-              game.basicGameData.vTeam.triCode
-            }.svg`}
-          />
-          {/* <Box
-            bg="orange"
-            ml={3}
+          <Flex
+            ml={2}
             css={{
               width: '56px',
               height: '56px',
               borderRadius: '50%',
             }}
-          /> */}
+          >
+            <img
+              style={{ objectFit: 'contain' }}
+              src={`../static/images/teams/${
+                game.basicGameData.vTeam.triCode
+              }.svg`}
+            />
+          </Flex>
         </Flex>
       </Flex>
     );
