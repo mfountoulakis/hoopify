@@ -45,7 +45,7 @@ export default class MyApp extends App {
 
     if (window.localStorage) {
       this.getFavTeam().then(favTeam => {
-        favTeam.length ? null : router.push('/teams');
+        this.state.favTeam.length ? null : router.push('/teams');
         this.setState({ favTeam, loading: false });
       });
     }
