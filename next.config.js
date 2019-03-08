@@ -47,6 +47,12 @@ module.exports =
                         maxEntries: 150,
                         maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
                       },
+                      backgroundSync: {
+                        name: 'hoopify-sync-queue',
+                        options: {
+                          maxRetentionTime: 24 * 60, // Retry for max of 24 Hours
+                        },
+                      },
                       cacheableResponse: {
                         statuses: [0, 200],
                       },
