@@ -75,12 +75,13 @@ class Game extends React.Component {
     const { isLoading } = this.state;
 
     let isActive = !!this.state.isActive;
+    let hasEnded = statusNum === 3;
 
     return (
       <Flex>
         {isLoading ? (
           <Flex>LOADING</Flex>
-        ) : isActive ? (
+        ) : isActive || hasEnded ? (
           <React.Fragment>
             <Flex>{hTeam.toString}</Flex>
             <Flex>{vTeam.toString}</Flex>
