@@ -45,7 +45,9 @@ export default class MyApp extends App {
 
     if (window.localStorage) {
       this.getFavTeam().then(favTeam => {
-        favTeam.length ? this.filterFavorite() : router.push('/teams');
+        !!favTeam && favTeam.length
+          ? this.filterFavorite()
+          : router.push('/teams');
         this.setState({ favTeam, loading: false });
       });
     }
