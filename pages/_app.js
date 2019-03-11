@@ -45,7 +45,9 @@ export default class MyApp extends App {
 
     if (window.localStorage) {
       this.getFavTeam().then(favTeam => {
-        favTeam.length ? null : router.push('/teams');
+        !!favTeam && favTeam.length
+          ? this.filterFavorite()
+          : router.push('/teams');
         this.setState({ favTeam, loading: false });
       });
     }
@@ -61,10 +63,6 @@ export default class MyApp extends App {
   filterFavorite = () => {
     const { favTeam } = this.state;
     const { games, router } = this.props;
-
-    if (favTeam.length === 0) {
-      router.push('/teams');
-    }
 
     const mapGame = xs =>
       xs.map(xs => {
