@@ -68,7 +68,7 @@ class Game extends React.Component {
     const {
       game,
       game: {
-        basicGameData: { hTeam, vTeam },
+        basicGameData: { hTeam, vTeam, statusNum },
       },
     } = this.props;
 
