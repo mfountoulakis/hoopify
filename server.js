@@ -1,6 +1,7 @@
 const express = require('express');
 const next = require('next');
-
+const { parse } = require('url');
+const { createReadStream } = require('fs');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -10,7 +11,10 @@ app
 
   .then(() => {
     const server = express();
-
+    server.get('/service-worker.js', (req, res) => {
+      res.setHeader('content-type', 'text/javascript');
+      createReadStream('service-worker.js').pipe(res);
+    });
     server.get('/teams', (req, res) => {
       return app.render(req, res, '/teams');
     });

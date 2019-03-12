@@ -34,6 +34,7 @@ module.exports =
           [
             withOffline,
             {
+              devSwSrc: 'service-worker.js',
               workboxOpts: {
                 swDest: 'static/service-worker.js',
                 runtimeCaching: [
