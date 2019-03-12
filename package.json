@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production next build",
     "clean:build:cache": "rm -rf node_modules/.cache",
     "clean:build": "rm -rf node_modules/.cache dist out",
-    "start": "NODE_ENV=production node server.js & node api.js",
+    "start": "NODE_ENV=production BASEURL=http://localhost:4000 node server.js & node api.js",
     "lint": "eslint --fix-dry-run 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",
     "lint:fix": "eslint --fix 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'",
     "prettify": "prettier --write 'components/**/*.js' 'pages/**/*.js' 'lib/**/*.js'"
