@@ -1,4 +1,6 @@
-#build 
-.next   
+#build
+.next
 #dependencies
 node_modules/
+# wth
+.DS_Store
