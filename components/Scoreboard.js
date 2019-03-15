@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { Flex } from '@rebass/grid';
 
 import Text from './Text';
+import ActivityIndicator from './ActivityIndicator';
 
 /**
- * TODO: load in team logos here. perhaps store them locally?
- * TODO: Get the current time for each quarter, maybe timout data
+ * TODO: Make the activity indicator smarter, as in, different state
+ * for timeouts and stuff
  **/
 
 class Scoreboard extends React.Component {
@@ -46,6 +47,9 @@ class Scoreboard extends React.Component {
           <Text caps fontSize={3}>
             {game.basicGameData.clock}
           </Text>
+          <Flex my={2}>
+            <ActivityIndicator gameOn={game.basicGameData.isGameActivated} />
+          </Flex>
         </Flex>
         <Flex alignItems="center">
           <Flex flexDirection="column" alignItems="center">
