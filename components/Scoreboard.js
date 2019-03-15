@@ -4,6 +4,7 @@ import { Flex } from '@rebass/grid';
 
 import Text from './Text';
 import ActivityIndicator from './ActivityIndicator';
+import Logo from './Logo';
 
 /**
  * TODO: Make the activity indicator smarter, as in, different state
@@ -17,22 +18,12 @@ class Scoreboard extends React.Component {
     return (
       <Flex flex={1} justifyContent="space-between">
         <Flex alignItems="center">
-          <Flex
+          <Logo
             mr={3}
-            css={{
-              width: '100%',
-              maxWidth: '56px',
-              height: '56px',
-              borderRadius: '50%',
-            }}
-          >
-            <img
-              style={{ objectFit: 'contain' }}
-              src={`../static/images/teams/${
-                game.basicGameData.hTeam.triCode
-              }.svg`}
-            />
-          </Flex>
+            src={`../static/images/teams/${
+              game.basicGameData.hTeam.triCode
+            }.svg`}
+          />
           <Flex flexDirection="column" alignItems="center">
             <Text fontSize={3}>{game.basicGameData.hTeam.score}</Text>
             <Text caps fontSize={0}>
@@ -59,21 +50,12 @@ class Scoreboard extends React.Component {
               {game.basicGameData.vTeam.triCode}
             </Text>
           </Flex>
-          <Flex
-            ml={2}
-            css={{
-              width: '56px',
-              height: '56px',
-              borderRadius: '50%',
-            }}
-          >
-            <img
-              style={{ objectFit: 'contain' }}
-              src={`../static/images/teams/${
-                game.basicGameData.vTeam.triCode
-              }.svg`}
-            />
-          </Flex>
+          <Logo
+            ml={3}
+            src={`../static/images/teams/${
+              game.basicGameData.vTeam.triCode
+            }.svg`}
+          />
         </Flex>
       </Flex>
     );
